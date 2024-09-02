@@ -53,25 +53,25 @@ const MeetingRoom = () => {
             
             <DropdownMenu>
             <div className='flex items-center max-md:hidden '>
-            <DropdownMenuTrigger className='cursor-pointer p-2 bg-green-200 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)] '>
+            <DropdownMenuTrigger className='cursor-pointer p-2 bg-green-200 hover:bg-green-300 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)] '>
                 <LayoutList size={20} className='text-black'/>
             </DropdownMenuTrigger>
             </div>
-            <DropdownMenuContent className='mb-6 bg-green-200 border-2 border-black shadow-[3px_3px_0px_rgba(0,0,0,1)]'>
+            <DropdownMenuContent className='mb-6 bg-green-200  border-2 border-black shadow-[3px_3px_0px_rgba(0,0,0,1)]'>
                 {['grid', 'speaker-left', 'speaker-right'].map((item, index) => (
                     <div key={index} >
                         <DropdownMenuItem 
                         className='flex justify-center items-center text-center cursor-pointer'
                         onClick={() => setLayout(item.toLowerCase() as callLayoutType)}>
                             {item}</DropdownMenuItem>
-                            <DropdownMenuSeparator></DropdownMenuSeparator>
+                            
                     </div>
                 ))}
             </DropdownMenuContent>
             </DropdownMenu>
             
             <button onClick={() => setShowParticipant((prev)=> (!prev))}>
-                <div className='cursor-pointer p-2 bg-green-200 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)] max-md:hidden '>
+                <div className='cursor-pointer p-2 bg-green-200 hover:bg-green-300 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)] max-md:hidden '>
                     <Users size={20}/>
                 </div>
             </button>
