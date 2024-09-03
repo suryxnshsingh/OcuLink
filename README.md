@@ -79,7 +79,7 @@ Make sure you have the following installed on your machine:
 **Cloning the Repository**
 
 ```bash
-git clone [https://github.com/adrianhajdin/zoom-clone.git](https://github.com/suryxnshsingh/OcuLink.git)
+git clone [https://github.com/suryxnshsingh/OcuLink.git](https://github.com/suryxnshsingh/OcuLink.git)
 cd oculink
 ```
 

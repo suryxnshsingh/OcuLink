@@ -52,7 +52,7 @@ export default function RootLayout({
       }}
       >
         <body
-          className={` ${poppins.variable} antialiased poppins text-nowrap`}>
+          className={` ${poppins.variable} antialiased poppins lg:text-nowrap`}>
           {children}
           <Toaster/>
         </body>
