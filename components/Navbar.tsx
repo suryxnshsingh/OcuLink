@@ -1,9 +1,10 @@
 import React from 'react'
+import MobileNav from './mobileNav'
 const Navbar = () => {
   return (
-    <div className=''>
+    <div className='md:hidden w-screen flex-between'>
         Navbar
-    
+        <MobileNav/>
     </div>
   )
 }

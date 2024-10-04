@@ -6,21 +6,22 @@ import { usePathname } from 'next/navigation'
 import React from 'react'
 import { cn } from '@/lib/utils'
 import Image from 'next/image';
+import { SignedIn, UserButton } from '@clerk/nextjs';
 const Sidebar = () => {
   const pathname = usePathname();
 
   return (
-    <section className='sticky left-0 top-0 flex h-screen w-fit flex-col justify-between bg-dark-1 p-6 pt-28 
-    max-md:hidden lg:w-[264px] text-white'>
+    <section className='sticky left-0 top-0 flex  w-fit flex-col justify-between  p-6
+    max-md:hidden lg:w-[264px] m-4 bg-white border-black border-4  shadow-[6px_4px_0px_rgba(0,0,0,1)]'>
        <div className='flex flex-1 flex-col gap-6'>
           {sidebarLinks.map((link) => {
-            const isActive = pathname == link.route || pathname.startsWith(`$(link.route)`);
+            const isActive = pathname == link.route || pathname.startsWith(`$(link.route)/`);
             return (
               <Link 
               href = {link.route}
               key = {link.label}
-              className={cn('flex gap-4 items-center p-4 rounded-lg justify-start',{
-                'bg-black text-white': isActive
+              className={cn('flex gap-4 items-center p-4 rounded-xl justify-start text-black border-black border-2 hover:shadow-[3.5px_5px_0px_rgba(0,0,0,1)]',{
+                'bg-[#de1b1b]  shadow-[3.5px_5px_0px_rgba(0,0,0,1)]': isActive
               })}
               >
                 
@@ -35,6 +36,11 @@ const Sidebar = () => {
               </Link>
             )
           })}
+       </div>
+       <div>
+        <SignedIn>
+          <UserButton/>
+        </SignedIn>
        </div>
     </section>
   )
