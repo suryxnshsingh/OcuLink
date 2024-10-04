@@ -7,21 +7,22 @@ import MeetingModal from './MeetingModal'
 
 const MeetingTypeList = () => {
   const router = useRouter()
-  const [MeetingState, setMeetingState] = useState<'isScheduleMeeting' | 'isJoiningMeeting' | 'isInstantMeeting' | 
-   undefined >()
+  const [meetingState, setMeetingState] = useState<
+    'isScheduleMeeting' | 'isJoiningMeeting' | 'isInstantMeeting' | undefined
+  >(undefined);
 
 
   const createMeeting = ()=>{
-    
+      
   }
 
   return (
-    <section className='grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4'>
+    <section className='grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4 mt-8'>
         <HomeCard
           img = "icons/add-meeting.svg"
           title = "New Meeting"
           description = "Start an Instant Meeting"
-          handleClick = {() => setMeetingState('isJoiningMeeting')}
+          handleClick = {() => setMeetingState('isInstantMeeting')}
           className = 'bg-orange-500'
         />
         <HomeCard
@@ -47,12 +48,12 @@ const MeetingTypeList = () => {
         />
 
         <MeetingModal
-          isOpen={MeetingState === 'isInstantMeeting'}
+          isOpen={meetingState === 'isInstantMeeting'}
           onClose={() => setMeetingState(undefined)}
           title="Start an Instant Meeting"
-          className = 'text-center'
-          buttonText = "Start Meeting"
-          handleClick = {createMeeting}
+          className="text-center"
+          buttonText="Start Meeting"
+          handleClick={createMeeting}
         />
     </section>
   )

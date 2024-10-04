@@ -22,19 +22,19 @@ const MobileNav = () => {
 
   return (
 
-    <section>
+    <section className=''>
 
-        <Sheet >
+        <Sheet>
         <SheetTrigger asChild>
             <Image
                 src = "/icons/hamburger.svg"
                 width={36}
                 height={36}
                 alt = "menu"
-                className='cursor-pointer md:hidden '
+                className='cursor-pointer  fill-red'
             />
         </SheetTrigger>
-        <SheetContent side={'left'} className='border-none w-full bg-white'>
+        <SheetContent side={'left'} className='border-none w-full h-full '>
 
             <div className='flex-col justify-between overflow-y-auto '>
                 <SheetClose asChild>

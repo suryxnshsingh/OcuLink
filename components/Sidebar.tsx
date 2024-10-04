@@ -12,7 +12,7 @@ const Sidebar = () => {
 
   return (
     <section className='sticky left-0 top-0 flex  w-fit flex-col justify-between  p-6
-    max-md:hidden lg:w-[264px] m-4 bg-white border-black border-4  shadow-[6px_4px_0px_rgba(0,0,0,1)]'>
+    max-md:hidden lg:w-[264px] m-4 bg-blue-200 border-black border-4  shadow-[6px_6px_0px_rgba(0,0,0,1)]'>
        <div className='flex flex-1 flex-col gap-6'>
           {sidebarLinks.map((link) => {
             const isActive = pathname == link.route || pathname.startsWith(`$(link.route)/`);
@@ -20,8 +20,8 @@ const Sidebar = () => {
               <Link 
               href = {link.route}
               key = {link.label}
-              className={cn('flex gap-4 items-center p-4 rounded-xl justify-start text-black border-black border-2 hover:shadow-[3.5px_5px_0px_rgba(0,0,0,1)]',{
-                'bg-[#de1b1b]  shadow-[3.5px_5px_0px_rgba(0,0,0,1)]': isActive
+              className={cn('flex gap-4 items-center p-4 rounded-xl justify-start text-black border-black border-2 shadow-[3.5px_5px_0px_rgba(0,0,0,1)] hover:bg-blue-400',{
+                'bg-blue-400': isActive
               })}
               >
                 
