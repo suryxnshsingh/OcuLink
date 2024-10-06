@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 const RootLayout = ({children}: {children:ReactNode}) => {
   return (
-    <main>
+    <main >
         <StreamVideoProvider>
           {children}
         </StreamVideoProvider>

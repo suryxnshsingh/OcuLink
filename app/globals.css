@@ -13,34 +13,52 @@
 .str-video__call-stats {
   max-width: 500px;
   position: relative;
+  border-radius: 0px;
+  
 }
 
 .str-video__speaker-layout__wrapper {
   max-height: 700px;
+  border-radius: 17px;
+  border-color: black;
+  border-width: 4px;
+  box-shadow: 6px 6px 0px rgba(0,0,0,1);
 }
 
 .str-video__participant-details {
   color: white;
+  border-radius: 0px;
+  
 }
 
 .str-video__menu-container {
   color: white;
+  border-radius: 0px;
+  
 }
 
 .str-video__notification {
   color: white;
+  border-radius: 0px;
 }
 
 .str-video__participant-list {
-  background-color: #1c1f2e;
+  background-color: #bbf7d0;
   padding: 10px;
-  border-radius: 10px;
-  color: white;
+  border-radius: 0px;
+  color: black;
   height: 100%;
+  border-color: black;
+  border-width: 4px;
+  box-shadow: 6px 6px 0px rgba(0,0,0,1);
+  
 }
 
 .str-video__call-controls__button {
   height: 40px;
+  border-radius: 0px;
+  border-width: 2px;
+  
 }
 
 .glassmorphism {
