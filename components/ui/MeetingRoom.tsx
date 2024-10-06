@@ -1,6 +1,7 @@
 import { cn } from '@/lib/utils';
 import { CallControls, CallParticipantsList, CallStatsButton, PaginatedGridLayout, SpeakerLayout } from '@stream-io/video-react-sdk';
 import React, { useState } from 'react'
+
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -9,13 +10,17 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
   } from "@/components/ui/dropdown-menu"
-import { LayoutList } from 'lucide-react';
+import { LayoutList, Users } from 'lucide-react';
+import { useSearchParams } from 'next/navigation';
+import EndCallButton from './EndCallButton';
   
 
 type callLayoutType = 'speaker-left' | 'speaker-right' | 'grid'
 const MeetingRoom = () => {
-    const [layout, setLayout] = useState<callLayoutType>('speaker-left')
-    const [showParticipant, setShowParticipant] = useState(false)
+    const  searchParams  = useSearchParams();
+    const [layout, setLayout] = useState<callLayoutType>('speaker-left');
+    const [showParticipant, setShowParticipant] = useState(false);
+    const isPersonalRoom = !!searchParams.get('personal');
 
     const CallLayout = () => {
         switch (layout) {
@@ -40,11 +45,11 @@ const MeetingRoom = () => {
             <div className='flex size-full items-center max-w-[1000px] '>
                 <CallLayout/>
             </div>
-            <div className={cn('h-[calc(100vh-100px)] hiddden ml-2',{'show-block': showParticipant})}>
+            <div className={cn('h-[calc(100vh-100px)] ml-5 hidden',{'show-block': showParticipant})}>
                 <CallParticipantsList onClose={(() => setShowParticipant(false))}/>
             </div>
         </div>
-        <div className='fixed bottom-0 flex w-full items-center justify-center gap-5'>
+        <div className='fixed bottom-0 flex w-full items-center justify-center gap-5 flex-wrap'>
             <CallStatsButton/>
             <CallControls/>
             
@@ -61,12 +66,18 @@ const MeetingRoom = () => {
                         className='flex justify-center items-center text-center cursor-pointer'
                         onClick={() => setLayout(item.toLowerCase() as callLayoutType)}>
                             {item}</DropdownMenuItem>
+                            <DropdownMenuSeparator></DropdownMenuSeparator>
                     </div>
                 ))}
             </DropdownMenuContent>
             </DropdownMenu>
             
-
+            <button onClick={() => setShowParticipant((prev)=> (!prev))}>
+                <div className='cursor-pointer p-2 bg-green-200 border-2 border-black hover:shadow-[2px_2px_0px_rgba(0,0,0,1)]'>
+                    <Users size={20}/>
+                </div>
+            </button>
+            {!isPersonalRoom && <EndCallButton/>}
         </div>
     </section>
   )

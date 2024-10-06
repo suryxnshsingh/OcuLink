@@ -1,7 +1,18 @@
 
 import Navbar from '@/components/ui/Navbar'
 import Sidebar from '@/components/ui/Sidebar'
+import { Metadata } from 'next';
 import React, { ReactNode } from 'react'
+
+export const metadata: Metadata = {
+  title: "OcuLink",
+  description: "A feature-rich video chat app",
+  icons: {
+    icon: {
+      url: "/icons/video-chat.png",
+    },
+  }
+};
 
 const HomeLayout = ({children}:{ children: ReactNode }) => {
   return (

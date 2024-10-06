@@ -9,7 +9,7 @@ import { useGetCallById } from '@/hooks/useGetCallById';
 
 import '@stream-io/video-react-sdk/dist/css/styles.css';
 
-import '../../../../app/my-styles.css';
+// import '../../../../app/my-styles.css';
 
 const Meeting = ({params: {id}}: {params: {id: string}}) => {
 
