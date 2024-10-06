@@ -17,7 +17,7 @@ const MeetingTypeList = () => {
   }
 
   return (
-    <section className='grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4 mt-8'>
+    <section className='grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4 md:mt-8 max-sm:mt-12'>
         <HomeCard
           img = "icons/add-meeting.svg"
           title = "New Meeting"

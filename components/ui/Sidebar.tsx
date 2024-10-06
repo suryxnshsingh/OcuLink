@@ -37,9 +37,10 @@ const Sidebar = () => {
             )
           })}
        </div>
-       <div>
-        <SignedIn>
+       <div className=" flex text-black">
+        <SignedIn >
           <UserButton/>
+          <p className='text-lg font-semibold ml-4'>Suryansh</p>
         </SignedIn>
        </div>
     </section>
