@@ -2,9 +2,7 @@ import React, { ReactNode } from 'react'
 
 const RootLayout = ({children}:{ children: ReactNode }) => {
   return (
-    <main>
-      navbar
-      sidebar
+    <main className=''>
       {children}
     </main>
   )

@@ -6,9 +6,10 @@ import { usePathname } from 'next/navigation'
 import React from 'react'
 import { cn } from '@/lib/utils'
 import Image from 'next/image';
-import { SignedIn, UserButton } from '@clerk/nextjs';
+import { SignedIn, UserButton, useUser } from '@clerk/nextjs';
 const Sidebar = () => {
   const pathname = usePathname();
+  const user = useUser()
 
   return (
     <section className='sticky left-0 top-0 flex  w-fit flex-col justify-between  p-6
@@ -40,7 +41,7 @@ const Sidebar = () => {
        <div className=" flex text-black">
         <SignedIn >
           <UserButton/>
-          <p className='text-lg font-semibold ml-4'>Suryansh</p>
+          <p className='text-lg font-medium ml-3 mb-2'>{user.user?.fullName}</p>
         </SignedIn>
        </div>
     </section>

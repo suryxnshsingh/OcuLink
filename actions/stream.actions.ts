@@ -5,7 +5,7 @@ import { StreamClient } from "@stream-io/node-sdk";
 
 const apiKey = process.env.NEXT_PUBLIC_STREAM_API_KEY;
 
-const apiSecret = process.env.NEXT_PUBLIC_STREAM_API_SECRET;
+const apiSecret = process.env.STREAM_SECRET_KEY;
 
 export const tokenProvider = async () => {
     const user = await currentUser()!
@@ -20,7 +20,7 @@ export const tokenProvider = async () => {
 
     const issued = Math.floor(Date.now() / 1000) -60 ;
     
-    const token = Client.generateUserToken({user_id:user.id, exp});
+    const token = Client.generateUserToken({user_id:user.id});
 
     return token;
 }

@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import '@stream-io/video-react-sdk/dist/css/styles.css';
+import './my-styles.css';
 import { ClerkProvider } from "@clerk/nextjs";
 import { dark, neobrutalism } from '@clerk/themes'
+import { Toaster } from "@/components/ui/toaster"
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -35,6 +38,7 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
           {children}
+          <Toaster/>
         </body>
       </ClerkProvider>
     </html>
