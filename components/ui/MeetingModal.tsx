@@ -3,10 +3,6 @@ import React, { ReactNode} from 'react'
 import {
     Dialog,
     DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
   } from "@/components/ui/dialog"
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
@@ -24,7 +20,7 @@ interface MeetingModalProps {
     buttonIcon?: string;
 }
 
-const MeetingModal = ({isOpen, onClose, title, className, children, handleClick, buttonText, image, buttonIcon}:
+const MeetingModal = ({isOpen, onClose, title, children, handleClick, buttonText, image, buttonIcon}:
      MeetingModalProps) => {
 
   return (

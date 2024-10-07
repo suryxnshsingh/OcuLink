@@ -1,6 +1,8 @@
 import StreamVideoProvider from '@/providers/streamClientProvider'
 import { Metadata } from 'next';
 import React, { ReactNode } from 'react'
+import '@stream-io/video-react-sdk/dist/css/styles.css';
+import '@/app/my-styles.css';
 
 export const metadata: Metadata = {
   title: "OcuLink",

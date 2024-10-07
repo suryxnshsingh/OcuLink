@@ -6,7 +6,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 // import '@stream-io/video-react-sdk/dist/css/styles.css';
 // import './my-styles.css';
 import { ClerkProvider } from "@clerk/nextjs";
-import { dark, neobrutalism } from '@clerk/themes'
+import { neobrutalism } from '@clerk/themes'
 import { Toaster } from "@/components/ui/toaster"
 
 const geistSans = localFont({
