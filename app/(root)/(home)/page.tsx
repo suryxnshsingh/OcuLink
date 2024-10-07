@@ -1,6 +1,7 @@
 import React from 'react'
 import MeetingTypeList from '@/components/ui/MeetingTypeList';
 import { useUser } from '@clerk/nextjs';
+import CallList from '@/components/ui/CallList';
 
 const Home = () => {
 
