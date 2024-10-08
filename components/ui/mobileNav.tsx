@@ -33,7 +33,7 @@ const MobileNav = () => {
                 width={36}
                 height={36}
                 alt = "menu"
-                className='cursor-pointer p-2'
+                className='cursor-pointer m-2'
             />
         </SheetTrigger>
         <SheetContent side={'left'} className='border-none w-full h-full bg-white'>
@@ -68,7 +68,8 @@ const MobileNav = () => {
                     </section>
                     
                 </SheetClose>
-                <div className='flex pt-60'>
+                <hr></hr>
+                <div className='flex pt-4'>
                     <SignedIn  >
                         <UserButton/>
                         <p className='text-lg font-medium ml-3 mb-2 '>{user.user?.fullName}</p>
