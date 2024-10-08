@@ -40,6 +40,9 @@ export default function RootLayout({
       <ClerkProvider
       appearance={{
         baseTheme: neobrutalism,
+        layout: {
+          unsafe_disableDevelopmentModeWarnings: true,
+        },
       }}
       >
         <body
