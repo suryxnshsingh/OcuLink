@@ -1,4 +1,120 @@
 .str-video{
-    primary-color: #bbf7d0;
-    
+    /* // Brand colors */
+    --str-video__brand-color1: #005fff;
+    --str-video__brand-color2: #69e5f6;
+    --str-video__brand-color3: #00e2a1;
+    --str-video__brand-color4: #ffd646;
+    --str-video__brand-color5: #dc433b;
+    --str_video__brand-color6: #b38af8;
+  
+    /* //Base colors */
+    --str-video__base-color1: #e3e4e5;
+    --str-video__base-color2: #979ca0;
+    --str-video__base-color3: #4c535b;
+    --str-video__base-color4: #000000;
+    --str-video__base-color5: #0c0d0e;
+    --str-video__base-color6: #19232d;
+    --str-video__base-color7: #101213;
+
+    /* //Backdrops */
+    --str-video__backdrop1: rgba(0, 0, 0, 0.5);
+
+    /* //Button colors: */
+    --str-video__button-default-base: #bbf7d0;
+    --str-video__button-default-hover: #bbf7d0;
+    --str-video__button-default-pressed: #0c0d0e;
+    --str-video__button-default-active: #19232d;
+    --str-video__button-default-disabled: #1e262e;
+  
+    --str-video__button-primary-base: #bbf7d0;
+    --str-video__button-primary-hover: #4c8fff;
+    --str-video__button-primary-pressed: #0c48ab;
+    --str-video__button-primary-active: #4ade80;
+  
+    --str-video__button-secondary-base: #19232d;
+    --str-video__button-secondary-hover: #e96962;
+    --str-video__button-secondary-pressed: #6a3233;
+    --str-video__button-secondary-active: #dc433b;
+  
+    --str-video__button-tertiary-base: #dc433b;
+    --str-video__button-tertiary-hover: #e96962;
+    --str-video__button-tertiary-pressed: #6a3233;
+    --str-video__button-tertiary-active: #31292f;
+
+    /* icon colors */
+    --str-video__icon-default: #000000;
+    --str-video__icon-hover: #000;
+    --str-video__icon-pressed: #000;
+    --str-video__icon-active: #000;
+    --str-video__icon-alert: #000;
+    --str-video__icon-disabled: #000;
+
+    /* //Alerts colors: */
+    --str-video__alert-success: #00e2a1;
+    --str-video__alert-caution: #ffd646;
+    --str-video__alert-warning: #dc433b;
+  
+    /* //Alerts backgrounds: */
+    --str-video__alert-success-background: rgba(0, 226, 161, 0.5);
+    --str-video__alert-caution-background: rgba(255, 214, 70, 0.5);
+    --str-video__alert-warning-background: rgba(220, 67, 59, 0.5);
+  
+    /* //Font sizes */
+    --str-video__font-size-xxs: 0.625rem;
+    --str-video__font-size-xs: 0.75rem;
+    --str-video__font-size-sm: 0.875rem;
+    --str-video__font-size-md: 1rem;
+    --str-video__font-size-lg: 1.125rem;
+    --str-video__font-size-xl: 1.25rem;
+    --str-video__font-size-xxl: 1.5rem;
+  
+    /* // Border raduiuses */
+    --str-video__border-radius-xxs: 0px;
+    --str-video__border-radius-xs: 0px;
+    --str-video__border-radius-sm: 0px;
+    --str-video__border-radius-md: 0px;
+    --str-video__border-radius-lg: 0px;
+    --str-video__border-radius-xl: 0px;
+    --str-video__border-radius-xxl: 0px;
+    --str-video__border-radius-circle: 0px;
+  
+    /* // spacing */
+    --str-video__spacing-xxs: 4px;
+    --str-video__spacing-xs: 6px;
+    --str-video__spacing-sm: 8px;
+    --str-video__spacing-md: 12px;
+    --str-video__spacing-lg: 16px;
+    --str-video__spacing-xl: 20px;
+  
+    /* colours  */
+
+    /* // Main colors */
+    --str-video__primary-color: #000;
+    --str-video__secondary-color: #669fff;
+  
+    /* // Text colors */
+    --str-video__text-color1: #000;
+    --str-video__text-color2: #000;
+    --str-video__text-color3: #000;
+    --str-video__text-color4: #000;
+  
+    /* // Danger and info colors */
+    --str-video__info-color: #4ce68c;
+    --str-video__info-color--accent: #20e070;
+    --str-video__danger-color: #ff3742;
+    --str-video__danger-color--accent: #ff000e;
+  
+    /* // Surface and background colors */
+    --str-video__background-color0: #f0fdf4;
+    --str-video__background-color1: #dcfce7;
+    --str-video__background-color2: #bbf7d0;
+    --str-video__background-color3: #86efac;
+    --str-video__background-color4: #4ade80;
+    --str-video__background-color5: #10b981;
+    --str-video__background-color6: #059669;
+    --str-video__background-color7: #065f46;
+    --str-video__overlay-color: rgba(39, 42, 48, 0.75);
+    --str-video__livestream-overlay-color: rgba(39, 42, 48, 0.25);
+    --str-video__livestream-overlay-color-hovered: rgba(39, 42, 48, 0.5);
+
 }

@@ -1,6 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('@stream-io/video-react-sdk/dist/css/styles.css') layer(video-default);
+
 
 * {
   margin: 0;
@@ -19,21 +21,27 @@
 
 .str-video__speaker-layout__wrapper {
   max-height: 700px;
+  border-style: solid;
+  border-color: black;
 }
 
 .str-video__participant-details {
-  color: white;
+  color: black;
   border-radius: 0px;
+  border-style: solid;
+  border-color: black;
   
 }
 
 .str-video__menu-container {
-  color: white;
+  color: black;
   border-radius: 0px;
+
 }
 
 .str-video__notification {
-  color: white;
+  color: black;
+  border-radius: 0px;
 }
 
 .str-video__participant-list {
@@ -51,9 +59,14 @@
 .str-video__call-controls__button {
   height: 40px;
   border-radius: 0px;
+  border-style: solid;
   border-width: 2px;
-  
+  border-color: black;
+  background-color: #bbf7d0;
+  box-shadow: 0px 0px 0px rgba(0,0,0,1);
 }
+
+
 
 .glassmorphism {
   background: rgba(255, 255, 255, 0.25);
