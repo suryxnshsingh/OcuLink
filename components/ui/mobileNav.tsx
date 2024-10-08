@@ -15,10 +15,12 @@ import { sidebarLinks } from '@/constansts'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
+import { SignedIn, UserButton, useUser } from '@clerk/nextjs'
 
 const MobileNav = () => {
 
   const pathname = usePathname();
+  const user = useUser()
 
   return (
 
@@ -27,18 +29,18 @@ const MobileNav = () => {
         <Sheet>
         <SheetTrigger asChild>
             <Image
-                src = "/icons/hamburger.svg"
+                src = "/icons/menu.png"
                 width={36}
                 height={36}
                 alt = "menu"
-                className='cursor-pointer  fill-red'
+                className='cursor-pointer p-2'
             />
         </SheetTrigger>
-        <SheetContent side={'left'} className='border-none w-full h-full '>
+        <SheetContent side={'left'} className='border-none w-full h-full bg-white'>
 
-            <div className='flex-col justify-between overflow-y-auto '>
+            <div className='flex-col justify-between overflow-y-auto'>
                 <SheetClose asChild>
-                    <section className='flex h-full flex-col gap-6 pt-16'>
+                    <section className='flex h-full flex-col gap-6 pt-16 '>
                         {sidebarLinks.map((link) => {
                             const isActive = pathname == link.route || pathname.startsWith(`$(link.route)`);
                             return (
@@ -64,7 +66,14 @@ const MobileNav = () => {
                             )
                         })}
                     </section>
+                    
                 </SheetClose>
+                <div className='flex pt-60'>
+                    <SignedIn  >
+                        <UserButton/>
+                        <p className='text-lg font-medium ml-3 mb-2 '>{user.user?.fullName}</p>
+                    </SignedIn>
+                </div>
             </div>
         </SheetContent>
         </Sheet>
