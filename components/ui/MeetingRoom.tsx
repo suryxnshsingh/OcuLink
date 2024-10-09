@@ -14,26 +14,25 @@ import { useSearchParams } from 'next/navigation';
 import EndCallButton from './EndCallButton';
   
 
-type callLayoutType = 'speaker-left' | 'speaker-right' | 'grid'
+type callLayoutType = 'grid' | 'speaker-left' | 'speaker-right'
 const MeetingRoom = () => {
     const  searchParams  = useSearchParams();
-    const [layout, setLayout] = useState<callLayoutType>('speaker-left');
+    const [layout, setLayout] = useState<callLayoutType>('grid');
     const [showParticipant, setShowParticipant] = useState(false);
     const isPersonalRoom = !!searchParams.get('personal');
 
     const CallLayout = () => {
         switch (layout) {
-            case 'grid':
+            default:
                 return <PaginatedGridLayout/>
 
             case 'speaker-right':
                 return <SpeakerLayout
                 participantsBarPosition={'right'}/>
 
-            default:
+                case 'speaker-left':
                 return <SpeakerLayout
                 participantsBarPosition={'left'}/>
-
         }
     }
 
