@@ -36,11 +36,11 @@ const MobileNav = () => {
                 className='cursor-pointer m-2'
             />
         </SheetTrigger>
-        <SheetContent side={'left'} className='border-none w-full h-full bg-white'>
+        <SheetContent side={'left'} className='border-none w-full h-full bg-blue-50'>
 
             <div className='flex-col justify-between overflow-y-auto'>
                 <SheetClose asChild>
-                    <section className='flex h-full flex-col gap-6 pt-16 '>
+                    <section className='flex h-full flex-col gap-6 pt-16 pb-28'>
                         {sidebarLinks.map((link) => {
                             const isActive = pathname == link.route || pathname.startsWith(`$(link.route)`);
                             return (
@@ -68,8 +68,8 @@ const MobileNav = () => {
                     </section>
                     
                 </SheetClose>
-                <hr></hr>
-                <div className='flex pt-4'>
+                <hr></hr>               
+                <div className='flex pt-8'>
                     <SignedIn  >
                         <UserButton/>
                         <p className='text-lg font-medium ml-3 mb-2 '>{user.user?.fullName}</p>

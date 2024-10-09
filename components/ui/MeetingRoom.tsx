@@ -57,7 +57,7 @@ const MeetingRoom = () => {
                 <LayoutList size={20} className='text-black'/>
             </DropdownMenuTrigger>
             </div>
-            <DropdownMenuContent className='bg-green-200 border-2 border-black shadow-[3px_3px_0px_rgba(0,0,0,1)]d'>
+            <DropdownMenuContent className='mb-6 bg-green-200 border-2 border-black shadow-[3px_3px_0px_rgba(0,0,0,1)]'>
                 {['grid', 'speaker-left', 'speaker-right'].map((item, index) => (
                     <div key={index} >
                         <DropdownMenuItem 
