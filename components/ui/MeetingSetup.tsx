@@ -27,7 +27,7 @@ const MeetingSetup = ({setIsSetupComplete}:{setIsSetupComplete: (value: boolean)
     <div className='flex h-screen w-full flex-col items-center justify-center bg-green-50 gap-3 bg-grid-black/[0.2] p-4'>
         <h1 className='text-4xl font-bold'>Meeting Setup</h1>
         
-        <VideoPreview className='w-3/4 min-lg:w-2/3 h-2/3 rounded-none border-black border-4 text-center shadow-[4px_4px_0px_rgba(0,0,0,1)] '/>
+        <VideoPreview className='w-3/4 min-lg:w-2/3 h-2/3 rounded-none border-black text-center border-double border-8 '/>
         <div className='flex h-16 items-center justify-center gap-3'>
             <label className='flex items-center justify-center gap-2 font-medium'>
                 <input 

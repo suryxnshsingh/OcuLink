@@ -15,7 +15,7 @@ const EndCallButton = () => {
     if(!isMeetingOwner) return null;
   return (
     <Button
-    className='cursor-pointer p-2 bg-red-500 border-2 border-black font-bold hover:shadow-[2px_2px_0px_rgba(0,0,0,1)]'
+    className='cursor-pointer p-2 bg-red-500 border-2 border-black font-bold shadow-[2px_2px_0px_rgba(0,0,0,1)] max-md:hidden'
     onClick={async ()=>{
         await call.endCall();
     

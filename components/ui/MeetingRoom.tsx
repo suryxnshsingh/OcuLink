@@ -47,13 +47,13 @@ const MeetingRoom = () => {
                 <CallParticipantsList onClose={(() => setShowParticipant(false))}/>
             </div>
         </div>
-        <div className='fixed bottom-0 flex w-full items-center justify-center gap-5 flex-wrap'>
+        <div className='fixed bottom-0 flex w-full items-center justify-center gap-4 flex-wrap'>
             
             <CallControls/>
             
             <DropdownMenu>
-            <div className='flex items-center'>
-            <DropdownMenuTrigger className='cursor-pointer p-2 bg-green-200 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)]'>
+            <div className='flex items-center max-md:hidden '>
+            <DropdownMenuTrigger className='cursor-pointer p-2 bg-green-200 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)] '>
                 <LayoutList size={20} className='text-black'/>
             </DropdownMenuTrigger>
             </div>
@@ -71,7 +71,7 @@ const MeetingRoom = () => {
             </DropdownMenu>
             
             <button onClick={() => setShowParticipant((prev)=> (!prev))}>
-                <div className='cursor-pointer p-2 bg-green-200 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)]'>
+                <div className='cursor-pointer p-2 bg-green-200 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)] max-md:hidden '>
                     <Users size={20}/>
                 </div>
             </button>

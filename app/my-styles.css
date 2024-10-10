@@ -116,25 +116,8 @@
     --str-video__overlay-color: rgba(39, 42, 48, 0.75);
     --str-video__livestream-overlay-color: rgba(39, 42, 48, 0.25);
     --str-video__livestream-overlay-color-hovered: rgba(39, 42, 48, 0.5);
-
-
-
 }
 
 
 
 
-.str-video__participant-view {
-    position: relative;
-    width: 100%;
-    max-width: 1280px;
-    max-height: 100%;
-    min-height: 0;
-    aspect-ratio: 4 / 3;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: var(--str-video__border-radius-sm);
-    border: 2px solid black;
-    box-shadow: 2.5px 2px 0px rgba(0,0,0,1);
-}
