@@ -53,7 +53,7 @@ const MeetingRoom = () => {
             
             <DropdownMenu>
             <div className='flex items-center'>
-            <DropdownMenuTrigger className='cursor-pointer p-2 bg-green-200 border-2 border-black hover:shadow-[2px_2px_0px_rgba(0,0,0,1)]'>
+            <DropdownMenuTrigger className='cursor-pointer p-2 bg-green-200 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)]'>
                 <LayoutList size={20} className='text-black'/>
             </DropdownMenuTrigger>
             </div>
@@ -71,7 +71,7 @@ const MeetingRoom = () => {
             </DropdownMenu>
             
             <button onClick={() => setShowParticipant((prev)=> (!prev))}>
-                <div className='cursor-pointer p-2 bg-green-200 border-2 border-black hover:shadow-[2px_2px_0px_rgba(0,0,0,1)]'>
+                <div className='cursor-pointer p-2 bg-green-200 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)]'>
                     <Users size={20}/>
                 </div>
             </button>
