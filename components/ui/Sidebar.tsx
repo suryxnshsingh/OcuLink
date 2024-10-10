@@ -12,7 +12,7 @@ const Sidebar = () => {
   const user = useUser()
 
   return (
-    <section className='sticky left-0 top-0 flex h-screen w-fit flex-col justify-between  p-6 max-lg:p-4
+    <section className='sticky left-0 top-0 flex h-[51.5rem] w-fit flex-col justify-between  p-6 max-lg:p-4
     max-md:hidden lg:w-[264px] md:w-[100px] m-4 bg-blue-200 border-black border-4  shadow-[6px_6px_0px_rgba(0,0,0,1)]'>
        <div className='flex flex-1 flex-col gap-6'>
           {sidebarLinks.map((link) => {

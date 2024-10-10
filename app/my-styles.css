@@ -119,17 +119,6 @@
 
 }
 
-.str-video__button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 0px;
-    padding: var(--str-video__spacing-sm) var(--str-video__spacing-lg);
-    text-align: center;
-    min-width: 120px;
-    width: 100%;
-    font-size: var(--str-video__font-size-md);
-    font-weight: 900;
-    border: 10px solid red;
-    color: var(--str-video__text-color1);
+.str-video__composite-button str-video__composite-button--menu{
+    border: 2px solid black;
 }

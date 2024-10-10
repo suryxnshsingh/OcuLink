@@ -1,5 +1,6 @@
 import React from 'react'
 import MeetingTypeList from '@/components/ui/MeetingTypeList';
+import CallList from '@/components/ui/CallList';
 
 const Home = () => {
 
@@ -23,6 +24,10 @@ const Home = () => {
         </div>
         <MeetingTypeList/>
       </div>
+      <div className='flex size-full flex-col gap-5 mt-72'>
+      <h1 className='text-4xl font-bold'>Scheduled Meetings</h1>
+      <CallList type='upcoming' />
+    </div>
     </section>
   )
 }
