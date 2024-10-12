@@ -1,5 +1,11 @@
 <div align="center">
 
+  <h3 align="center">OcuLink</h3>
+
+   <div align="center">
+     OcuLink is a feature rich Video confrencing platform made using getStream at its core and a minimalistic User Interface following the principles of Neo Brutalistic design principles.
+    </div>
+
  <br />
     <a href="https://oculink.vercel.app" target="_blank">
       <img src="https://github.com/suryxnshsingh/OcuLink/blob/a5463bb348225c410803cac4bfdcb75a441db598/public/oculink.png" alt="OcuLink Landing Page">
@@ -13,11 +19,7 @@
     <img src="https://img.shields.io/badge/-Tailwind_CSS-black?style=for-the-badge&logoColor=white&logo=tailwindcss&color=06B6D4" alt="tailwindcss" />
   </div>
 
-  <h3 align="center">OcuLink</h3>
 
-   <div align="center">
-     OcuLink is a feature rich Video confrencing platform made using getStream at its core and a minimalistic User Interface following the principles of Neo Brutalistic design principles.
-    </div>
 </div>
 
 
