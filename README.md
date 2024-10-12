@@ -2,10 +2,6 @@
 
   <h3 align="center">OcuLink</h3>
 
-   <div align="center">
-     OcuLink is a feature rich Video confrencing platform made using getStream at its core and a minimalistic User Interface following the principles of Neo Brutalistic design principles.
-    </div>
-
  <br />
     <a href="https://oculink.vercel.app" target="_blank">
       <img src="https://github.com/suryxnshsingh/OcuLink/blob/a5463bb348225c410803cac4bfdcb75a441db598/public/oculink.png" alt="OcuLink Landing Page">
@@ -25,7 +21,7 @@
 
 ## <a name="introduction">🤖 Introduction</a>
 
-Built with the latest Next.js and TypeScript, this project replicates Zoom, a widely used video conferencing tool. It enables users to securely log in, create meetings and access various meeting functionalities such as recording, screen sharing, and managing participants.
+OcuLink is a feature rich Video confrencing platform made with the latest Next.js and TypeScript. It enables users to securely log in, create meetings and access various meeting functionalities such as recording, screen sharing, and managing participants, call Stats, etc.
 
 ## <a name="design">🎨 Design</a>
 
