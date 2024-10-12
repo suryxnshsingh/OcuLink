@@ -1,5 +1,12 @@
 <div align="center">
 
+ <br />
+    <a href="https://oculink.vercel.app" target="_blank">
+      <img src="https://github.com/suryxnshsingh/OcuLink/blob/a5463bb348225c410803cac4bfdcb75a441db598/public/oculink.png" alt="OcuLink Landing Page">
+    </a>
+  
+  <br />
+
   <div>
     <img src="https://img.shields.io/badge/-TypeScript-black?style=for-the-badge&logoColor=white&logo=typescript&color=3178C6" alt="typescript" />
     <img src="https://img.shields.io/badge/-Next_JS-black?style=for-the-badge&logoColor=white&logo=nextdotjs&color=000000" alt="nextdotjs" />
