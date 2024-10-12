@@ -1,6 +1,6 @@
 <div align="center">
 
-  <h3 align="center">OcuLink</h3>
+  <h2 align="center">OcuLink</h2>
 
  <br />
     <a href="https://oculink.vercel.app" target="_blank">
