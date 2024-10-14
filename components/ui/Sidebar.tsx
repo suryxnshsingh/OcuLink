@@ -6,14 +6,14 @@ import { usePathname } from 'next/navigation'
 import React from 'react'
 import { cn } from '@/lib/utils'
 import Image from 'next/image';
-import { SignedIn, SignedOut, SignInButton, UserButton, useUser } from '@clerk/nextjs';
+import { SignedIn, SignedOut, SignInButton, UserButton, UserProfile, useUser } from '@clerk/nextjs';
 const Sidebar = () => {
   const pathname = usePathname();
   const user = useUser();
 
   return ( 
     <section className='sticky left-0 top-0 flex  w-fit flex-col justify-between  p-6 max-lg:p-4 poppins
-    max-md:hidden lg:w-[264px] md:w-[100px] m-4 bg-blue-200 border-black border-4  shadow-[6px_6px_0px_rgba(0,0,0,1)]'>
+    max-md:hidden lg:w-[264px] md:w-[100px] h-[95vh] m-4 bg-blue-200 border-black border-4  shadow-[6px_6px_0px_rgba(0,0,0,1)]'>
        <div className='flex flex-1 flex-col gap-6'>
           {sidebarLinks.map((link) => {
             const isActive = pathname == link.route || pathname.startsWith(`$(link.route)/`);
@@ -38,10 +38,13 @@ const Sidebar = () => {
             )
           })}
        </div>
-       <div className=" flex text-black z-200">
+       <div className=" flex text-black">
         <SignedIn >
           <UserButton/>
-          <p className='text-lg font-medium ml-3 mb-2 max-lg:hidden '>{user.user?.fullName}</p>
+            <div  className='cursor-pointer '>
+            <p className='text-lg font-medium ml-3 max-lg:hidden '>{user.user?.fullName}</p>
+            <p className='text-sm font-normal ml-3 max-lg:hidden '>{user.user?.username}</p>
+          </div>
         </SignedIn>
        </div>
     </section>
