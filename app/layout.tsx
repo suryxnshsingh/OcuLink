@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import 'react-datepicker/dist/react-datepicker.css';
-
 import '@stream-io/video-react-sdk/dist/css/styles.css';
 import './my-styles.css';
 import { ClerkProvider } from "@clerk/nextjs";
