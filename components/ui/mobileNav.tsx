@@ -49,7 +49,7 @@ const MobileNav = () => {
                                     href = {link.route}
                                     key = {link.label}
                                     className={cn('flex gap-4 items-center p-4 rounded-lg w-full',{
-                                        'bg-[red]]': isActive
+                                        'bg-blue-200 rounded-2xl': isActive
                                     })}
                                     >
                                         
@@ -60,7 +60,7 @@ const MobileNav = () => {
                                         height = {20}
                                         >
                                         </Image>
-                                        <p className='font-semibold'>{link.label}</p>
+                                        <p className='font-semibold text-2xl'>{link.label}</p>
                                     </Link>
                                 </SheetClose>
                             )
@@ -68,13 +68,6 @@ const MobileNav = () => {
                     </section>
                     
                 </SheetClose>
-                <hr></hr>               
-                <div className='flex pt-8'>
-                    <SignedIn  >
-                        <UserButton/>
-                        <p className='text-lg font-medium ml-3 mb-2 '>{user.user?.fullName}</p>
-                    </SignedIn>
-                </div>
             </div>
         </SheetContent>
         </Sheet>

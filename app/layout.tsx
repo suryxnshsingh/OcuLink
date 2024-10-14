@@ -7,6 +7,13 @@ import './my-styles.css';
 import { ClerkProvider } from "@clerk/nextjs";
 import { neobrutalism } from '@clerk/themes'
 import { Toaster } from "@/components/ui/toaster"
+import { Poppins } from 'next/font/google'
+
+const poppins = Poppins({ 
+  weight: ['100','200','300','400','500', '600', '700', '800', '900'],
+  subsets: ['latin'],
+  variable: '--font-poppins',
+})
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -45,7 +52,7 @@ export default function RootLayout({
       }}
       >
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+          className={` ${poppins.variable} antialiased poppins text-nowrap`}>
           {children}
           <Toaster/>
         </body>

@@ -1,6 +1,6 @@
 import React from 'react'
 import MeetingTypeList from '@/components/ui/MeetingTypeList';
-import CallList from '@/components/ui/CallList';
+import Name from '@/components/ui/name';
 
 const Home = () => {
 
@@ -12,7 +12,7 @@ const Home = () => {
     <section className='flex size-full flex-col gap-10 '>
       <div className='md:h-[250px]  h-60 w-full border-black border-4 shadow-[6px_6px_0px_rgba(0,0,0,1)] bg-green-200'>
         <div className='flex h-full flex-col justify-between max-lg:px-5 max-lg:py-9 lg:p-11'>
-          <div className='mb-8 text-2xl font-semibold '>Hello, there!</div>
+          <div className='mb-8 text-2xl font-semibold flex'>Hello, <Name/>!</div>
           <div className='flex flex-col gap-2'>
             <h1 className='text-4xl font-extrabold lg:text-7xl'>
               {time}

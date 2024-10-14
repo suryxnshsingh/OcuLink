@@ -11,6 +11,10 @@
   border-radius: 0px;
 }
 
+.poppins{
+  font-family: var(--font-poppins);
+}
+
 /* ======== stream css overrides ======== */
 .str-video__call-stats {
   max-width: 500px;
