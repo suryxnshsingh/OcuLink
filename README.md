@@ -4,7 +4,7 @@
 
  <br />
     <a href="https://oculink.vercel.app" target="_blank">
-      <img src="https://github.com/suryxnshsingh/OcuLink/blob/a5463bb348225c410803cac4bfdcb75a441db598/public/oculink2.png" alt="OcuLink Landing Page">
+      <img src="https://github.com/suryxnshsingh/OcuLink/blob/53fabd89c5a3c8b60771d7fde65a1720df73c4f3/public/oculink2.png" alt="OcuLink Landing Page">
     </a>
   
   <br />
