@@ -99,8 +99,8 @@ Create a new file named `.env` in the root of your project and add the following
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
 CLERK_SECRET_KEY=
 
-NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
-NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/signin
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=/signup
 
 NEXT_PUBLIC_STREAM_API_KEY=
 STREAM_SECRET_KEY=
@@ -115,7 +115,7 @@ npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser to view the project.
-          to: { height: 'var(--radix-accordion-content-height)' },
+    
 
 
 #
