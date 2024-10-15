@@ -152,12 +152,23 @@ const MeetingTypeList = () => {
                 title="Type the link here"
                 className="text-center"
                 buttonText="Join Meeting"
-                handleClick={() => router.push(values.link)}
+                handleClick={() => {
+                  let link = values.link.trim();
+                  
+                  if (!link.startsWith('http')) {
+                    if (!link.startsWith('/meeting')) {
+                      link = `/meeting/${link}`;
+                    }
+                    link = `https://oculink.vercel.app${link}`;
+                  }
+                  
+                  router.push(link);
+                }}
               >
                 <Input
                   placeholder="Meeting link"
                   onChange={(e) => setValues({ ...values, link: e.target.value })}
-                  className="border-none bg-dark-3 focus-visible:ring-0 focus-visible:ring-offset-0"
+                  className="border-none bg-green-300 focus-visible:ring-0 focus-visible:ring-offset-0"
                 />
         </MeetingModal>
 
