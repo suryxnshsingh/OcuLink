@@ -33,8 +33,29 @@ export const metadata: Metadata = {
     icon: {
       url: "/icons/video-chat.png",
     },
-  }
+  },
+  openGraph: {
+    title: "OcuLink - Feature Rich Video Confrencing with ease",
+    description: "Seamless video chat with OcuLink. Stay connected effortlessly.",
+    url: "https://oculink.vercel.app",
+    images: [
+      {
+        url: "/oculink2.png",
+        width: 1200,
+        height: 630,
+        alt: "OcuLink preview image",
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "OcuLink - Feature Rich Video Confrencing with ease",
+    description: "Seamless video chat with OcuLink. Stay connected effortlessly.",
+    images: ["/oculink2.png"],
+  },
 };
+
 
 export default function RootLayout({
   children,
