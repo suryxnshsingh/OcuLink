@@ -9,7 +9,7 @@ interface DecorativeElementProps extends MotionProps {
 
 const getRandomPosition = () => Math.random() * 100 - 50;
 
-const getContinuousMotion = () => ({
+const getContinuousMotion = (): TargetAndTransition => ({
   x: [getRandomPosition(), getRandomPosition()],
   y: [getRandomPosition(), getRandomPosition()],
   transition: { repeat: Infinity, repeatType: "mirror", duration: 10, ease: "linear" }
@@ -17,11 +17,12 @@ const getContinuousMotion = () => ({
 
 const DecorativeElement = ({ className, initial, animate, whileHover }: DecorativeElementProps) => {
   const continuousMotion = getContinuousMotion();
+  const combinedAnimate: TargetAndTransition = typeof animate === 'object' ? { ...(animate as TargetAndTransition), opacity: 1, ...continuousMotion } : { opacity: 1, ...continuousMotion };
   return (
     <motion.div
       className={className}
       initial={typeof initial === 'object' ? { ...initial, opacity: 1 } : initial}
-      animate={typeof animate === 'object' ? { ...animate, opacity: 1, ...continuousMotion } : animate}
+      animate={combinedAnimate}
       whileHover={whileHover}
     />
   );
@@ -105,7 +106,7 @@ const SigninPage = () => {
           whileHover={{ scale: 1.2, rotate: 180 }}
         />
         <DecorativeElement
-          className="absolute bottom-1/4 right-1/3 w-16 h-16 bg-red-400 rounded-lg shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] border-2 border-black"
+          className="absolute bottom-1/4 right-1/3 w-16 h-16 bg-red-500 rounded-lg shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] border-2 border-black"
           initial={{ opacity: 0, rotate: 45, scale: 0.5 }}
           animate={{ opacity: 1, rotate: 45, scale: 1, x: getRandomPosition(), y: getRandomPosition() }}
           whileHover={{ scale: 1.2, rotate: 0 }}
@@ -123,19 +124,19 @@ const SigninPage = () => {
           whileHover={{ scale: 1.2, rotate: 180 }}
         />
         <DecorativeElement
-          className="absolute bottom-1/2 right-1/3 w-10 h-10 bg-yellow-500 rounded-lg shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] border-2 border-black"
+          className="absolute bottom-1/2 right-1/3 w-10 h-10 bg-yellow-600 rounded-lg shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] border-2 border-black"
           initial={{ opacity: 0, rotate: 45, scale: 0.5 }}
           animate={{ opacity: 1, rotate: 45, scale: 1, x: getRandomPosition(), y: getRandomPosition() }}
           whileHover={{ scale: 1.2, rotate: 0 }}
         />
         <DecorativeElement
-          className="absolute top-1/4 left-1/4 w-10 h-10 bg-blue-500 rounded-lg shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] border-2 border-black"
+          className="absolute top-1/4 left-1/4 w-10 h-10 bg-blue-600 rounded-lg shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] border-2 border-black"
           initial={{ opacity: 0, rotate: 30, scale: 0.5 }}
           animate={{ opacity: 1, rotate: 30, scale: 1, x: getRandomPosition(), y: getRandomPosition() }}
           whileHover={{ scale: 1.2, rotate: 0 }}
         />
         <DecorativeElement
-          className="absolute bottom-1/4 right-1/4 w-12 h-12 bg-green-500 rounded-lg shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] border-2 border-black"
+          className="absolute bottom-1/4 right-1/4 w-12 h-12 bg-green-600 rounded-lg shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] border-2 border-black"
           initial={{ opacity: 0, rotate: -30, scale: 0.5 }}
           animate={{ opacity: 1, rotate: -30, scale: 1, x: getRandomPosition(), y: getRandomPosition() }}
           whileHover={{ scale: 1.2, rotate: 0 }}
