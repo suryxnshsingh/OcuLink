@@ -28,34 +28,43 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "OcuLink",
-  description: "A feature-rich video chat app",
-  icons: {
-    icon: {
-      url: "/icons/video-chat.png",
-    },
+  title: {
+    default:
+      'OcuLink - Feature Rich Video Confrencing with ease',
+    template: `%s - OcuLink`,
   },
+  description:
+    'Seamless video chat with OcuLink. Stay connected effortlessly witha beautiful neobrutalistic UI.',
+  keywords: [
+    'neobrutalism',
+    'oculink',
+    'shadcn',
+    'tailwind',
+    'getStream',
+    'clerk',
+    'suryansh',
+    'suryxnshsingh',
+    ''
+  ],
+  authors: [{ name: 'SuryanshSingh', url: 'https://github.com/suryxnshsingh' }],
   openGraph: {
-    title: "OcuLink - Feature Rich Video Confrencing with ease",
-    description: "Seamless video chat with OcuLink. Stay connected effortlessly.",
-    url: "https://oculink.vercel.app",
-    images: [
-      {
-        url: "/oculink2.png",
-        width: 1200,
-        height: 630,
-        alt: "OcuLink preview image",
-      },
-    ],
-    type: "website",
+    type: 'website',
+    description:
+      'Seamless video chat with OcuLink. Stay connected effortlessly.',
+    images: ['https://github.com/suryxnshsingh/OcuLink/blob/53fabd89c5a3c8b60771d7fde65a1720df73c4f3/public/oculink2.png'],
+    url: 'https://oculink.vercel.app/',
+    title: 'OcuLink - Video Chat App',
   },
+  metadataBase: new URL('https://oculink.vercel.app/'),
   twitter: {
-    card: "summary_large_image",
-    title: "OcuLink - Feature Rich Video Confrencing with ease",
-    description: "Seamless video chat with OcuLink. Stay connected effortlessly.",
-    images: ["/oculink2.png"],
+    card: 'summary_large_image',
+    title: 'OcuLink - Feature Rich Video Confrencing with ease',
+    description:
+      'Seamless video chat with OcuLink. Stay connected effortlessly witha beautiful neobrutalistic UI.',
+    images: ['https://github.com/suryxnshsingh/OcuLink/blob/53fabd89c5a3c8b60771d7fde65a1720df73c4f3/public/oculink2.png'],
+    creator: '@suryxnshsingh',
   },
-};
+}
 
 export default function RootLayout({
   children,
