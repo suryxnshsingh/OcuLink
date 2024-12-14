@@ -39,6 +39,13 @@ const MeetingRoom = () => {
 
   return (
     <section className='relative h-screen w-full overflow-hidden bg-green-50 bg-grid-small-black/[0.2]'>
+        {/* {!showParticipant && (
+            <button onClick={() => setShowParticipant((prev)=> (!prev))} className='right-0 top-0 absolute z-50 p-5'>
+            <div className='cursor-pointer p-2 bg-green-200 hover:bg-green-300 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)] '>
+                <Users size={20}/>
+            </div>
+            </button>
+        )} */}
         <div className='relative flex size-full items-center justify-center'>
             <div className='flex size-full items-center max-w-[1000px] '>
                 <CallLayout/>
