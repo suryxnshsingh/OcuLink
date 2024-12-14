@@ -10,6 +10,7 @@ import { useToast } from "@/hooks/use-toast"
 import { Textarea } from './textarea'
 import ReactDatePicker from 'react-datepicker'
 import { Input } from './input'
+import { motion } from 'framer-motion'
 
 
 const MeetingTypeList = () => {
@@ -65,7 +66,12 @@ const MeetingTypeList = () => {
   const meetingLink = `${process.env.NEXT_PUBLIC_BASE_URL}/meeting/${callDetails?.id}`
 
   return (
-    <section className='grid grid-cols-1 gap-5 lg:grid-cols-3 md:mt-8 max-sm:mt-12'>
+    <motion.section
+      className='grid grid-cols-1 gap-5 lg:grid-cols-3 md:mt-8 max-sm:mt-12'
+      initial={{ opacity: 0, scale: 1.2 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.3 }}
+    >
         <HomeCard
           img = "icons/add-meeting.svg"
           title = "New Meeting"
@@ -180,7 +186,7 @@ const MeetingTypeList = () => {
           buttonText="Start Meeting"
           handleClick={createMeeting}
         />
-    </section>
+    </motion.section>
   )
 }
 
