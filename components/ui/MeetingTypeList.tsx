@@ -65,7 +65,7 @@ const MeetingTypeList = () => {
   const meetingLink = `${process.env.NEXT_PUBLIC_BASE_URL}/meeting/${callDetails?.id}`
 
   return (
-    <section className='grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4 md:mt-8 max-sm:mt-12'>
+    <section className='grid grid-cols-1 gap-5 lg:grid-cols-3 md:mt-8 max-sm:mt-12'>
         <HomeCard
           img = "icons/add-meeting.svg"
           title = "New Meeting"
@@ -85,15 +85,15 @@ const MeetingTypeList = () => {
           title = "Join Meeting"
           description = "via Invitation links"
           handleClick = {() => setMeetingState('isJoiningMeeting')}
-          className = 'bg-green-500'
+          className = 'bg-purple-500'
         />
-        <HomeCard
+        {/* <HomeCard
           img = "icons/recordings.svg"
           title = "View Recordings"
           description = "Recorded meetings"
           handleClick = {() => router.push("/recordings")}
           className = 'bg-purple-500'
-        />
+        /> */}
 
         {!callDetails ? (
                 <MeetingModal
@@ -141,7 +141,7 @@ const MeetingTypeList = () => {
                   image={'/icons/checked.svg'}
                   buttonIcon="/icons/copy.svg"
                   className="text-center fill-white px-5"
-                  buttonText="Copy Meeting Link"
+                  buttonText="Copy Meeting Link &nbsp;"
                   
                 />
               )}
@@ -149,7 +149,7 @@ const MeetingTypeList = () => {
         <MeetingModal
                 isOpen={meetingState === 'isJoiningMeeting'}
                 onClose={() => setMeetingState(undefined)}
-                title="Type the link here"
+                title="Type/paste the link here"
                 className="text-center"
                 buttonText="Join Meeting"
                 handleClick={() => {
