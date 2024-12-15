@@ -1,7 +1,7 @@
 'use client';
 
 import { Call, CallRecording } from '@stream-io/video-react-sdk';
-
+import { motion } from 'framer-motion';
 import Loader from './Loader';
 import { useGetCalls } from '@/hooks/useGetCalls';
 import MeetingCard from './MeetingCards';
@@ -64,7 +64,11 @@ const CallList = ({ type }: { type: 'ended' | 'upcoming' | 'recordings' }) => {
   const noCallsMessage = getNoCallsMessage();
 
   return (
-    <div className="grid grid-cols-1 gap-5 xl:grid-cols-2 ">
+    <motion.div 
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.3 }}
+      className="grid grid-cols-1 gap-5 xl:grid-cols-2 ">
       {calls && calls.length > 0 ? (
         calls.map((meeting: Call | CallRecording) => (
           <MeetingCard
@@ -103,7 +107,7 @@ const CallList = ({ type }: { type: 'ended' | 'upcoming' | 'recordings' }) => {
       ) : (
         <h1 className="text-2xl font-semibold text-center items-center ">{noCallsMessage}</h1>
       )}
-    </div>
+    </motion.div>
   );
 };
 
