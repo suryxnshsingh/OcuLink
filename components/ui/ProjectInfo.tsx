@@ -26,7 +26,7 @@ const ProjectInfo = () => {
     >
       <div className='pt-5 rounded-xl h-full'>
         <div className='mb-6 relative z-10'>
-          <h3 className='text-xl font-bold mb-2 text-center'>Built with:</h3>
+          <h3 className='text-xl font-bold mb-2 text-center'>OcuLink is built using:</h3>
           <div className='flex flex-wrap justify-center gap-2'>
             {technologies.map((tech, index) => (
               <span
