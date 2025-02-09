@@ -6,7 +6,7 @@ import CursorEffect from '@/components/ui/CursorEffect'
 
 const AboutPage = () => {
   return (
-    <div className='w-[88svw] md:w-[70svw] h-[83svh] md:h-[80svh]'>
+    <div className='w-[88svw] md:w-[70svw] h-[115svh] md:h-[80svh]'>
         <h1 className='text-5xl font-extrabold'>About Us</h1>
       <div className='w-full h-full my-10 overflow-hidden bg-purple-100 border-black border-4 shadow-[8px_8px_0px_rgba(0,0,0,1)] relative'>
         <CursorEffect />

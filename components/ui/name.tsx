@@ -8,7 +8,7 @@ const Name = () => {
   return (
     <div>
         <SignedIn >
-          <p className='pl-2'>{user.user?.firstName}</p>
+          <p className='pl-2'>{user.user?.firstName || 'User'}</p>
         </SignedIn>
     </div>
   )
