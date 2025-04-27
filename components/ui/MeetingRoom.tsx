@@ -1,7 +1,8 @@
 import { cn } from '@/lib/utils';
-import { CallControls, CallParticipantsList, CallStatsButton, PaginatedGridLayout, SpeakerLayout } from '@stream-io/video-react-sdk';
-import React, { useState } from 'react'
+import { CallControls, CallParticipantsList, CallStatsButton, PaginatedGridLayout, SpeakerLayout, useCall, useCallStateHooks } from '@stream-io/video-react-sdk';
+import React, { useState, useEffect, useRef } from 'react'
 import CustomLayout from './CustomLayout';
+import { useRouter } from 'next/navigation';
 
 import {
     DropdownMenu,
@@ -13,14 +14,40 @@ import {
 import { LayoutList, Users } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import EndCallButton from './EndCallButton';
-  
+import MeetingEnd from './MeetingEnd';
 
 type callLayoutType = 'grid' | 'speaker-left' | 'speaker-right' | 'custom'
 const MeetingRoom = () => {
-    const  searchParams  = useSearchParams();
+    const router = useRouter();
+    const searchParams = useSearchParams();
     const [layout, setLayout] = useState<callLayoutType>('custom');
     const [showParticipant, setShowParticipant] = useState(false);
+    const [callEnded, setCallEnded] = useState(false);
     const isPersonalRoom = !!searchParams.get('personal');
+    const callJoinedRef = useRef(false);
+    
+    const call = useCall();
+    const { useCallCallingState } = useCallStateHooks();
+    const callingState = useCallCallingState();
+
+    useEffect(() => {
+        // Only mark a call as joined after it has transitioned to an active state
+        if (callingState === 'joined') {
+            callJoinedRef.current = true;
+        }
+
+        // Only show meeting end screen if the call was previously joined
+        // and now it's either 'idle' or 'left'
+        if (callJoinedRef.current && (callingState === 'idle' || callingState === 'left')) {
+            console.log('Call ended, showing end meeting screen');
+            setCallEnded(true);
+        }
+    }, [callingState]);
+
+    // If call has ended, show the MeetingEnd component
+    if (callEnded) {
+        return <MeetingEnd />;
+    }
 
     const CallLayout = () => {
         switch (layout) {
