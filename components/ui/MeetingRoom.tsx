@@ -39,20 +39,26 @@ const MeetingRoom = () => {
 
   return (
     <section className='relative h-screen w-full overflow-hidden bg-green-50 bg-grid-small-black/[0.2]'>
-        {/* {!showParticipant && (
+        {!showParticipant && (
             <button onClick={() => setShowParticipant((prev)=> (!prev))} className='right-0 top-0 absolute z-50 p-5'>
             <div className='cursor-pointer p-2 bg-green-200 hover:bg-green-300 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)] '>
                 <Users size={20}/>
             </div>
             </button>
-        )} */}
+        )}
         <div className='relative flex size-full items-center justify-center'>
             <div className='flex size-full items-center max-w-[1000px] '>
                 <CallLayout/>
             </div>
-            <div className={cn('h-[calc(100vh-100px)] ml-5 hidden',{'show-block': showParticipant})}>
-                <CallParticipantsList onClose={(() => setShowParticipant(false))}/>
-            </div>
+            {/* Participant list - overlay on mobile */}
+            {showParticipant && (
+                <div className={cn('fixed inset-0 bg-black/20 z-50 md:bg-transparent md:static md:z-auto', 'flex justify-end')}>
+                    <div className={cn('h-full w-full max-w-[350px] bg-green-200 border-l-2 border-t-2 border-b-2 border-black md:h-[calc(100vh-100px)] md:border-2',
+                    'animate-in slide-in-from-right duration-300')}>
+                        <CallParticipantsList onClose={(() => setShowParticipant(false))}/>
+                    </div>
+                </div>
+            )}
         </div>
         <div className='fixed bottom-0 flex w-full items-center justify-center gap-4 flex-wrap'>
             
