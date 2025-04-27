@@ -28,8 +28,8 @@ const MeetingRoom = () => {
     const { useCallCallingState } = useCallStateHooks();
     const callingState = useCallCallingState();
     
-    // Use a ref for the custom layout key
-    const customLayoutKey = useRef(0);
+    // Track if we need to force a re-render of the custom layout
+    const forceUpdateKey = useRef(0);
     
     // Simple effect for call end detection
     useEffect(() => {
@@ -46,36 +46,35 @@ const MeetingRoom = () => {
         }
     }, [callingState]);
     
-    // Listen for relevant events but don't run in an effect that depends on dynamic values
+    // Setup event listeners for call state changes
     useEffect(() => {
         if (!call) return;
         
-        // Event handler to update the layout key and force a re-render
-        const handleLayoutUpdate = () => {
-            customLayoutKey.current += 1;
-            // Force component re-render without creating dependency cycles
-            // We use a state variable that isn't a dependency in any other effects
+        // When call state changes, force a re-render of the CustomLayout component
+        const handleCallStateChange = () => {
+            forceUpdateKey.current += 1;
+            // We need to force a re-render of the component tree
             setLayout(prev => prev);
         };
         
-        // Listen to basic events that suggest screen sharing or participant changes
-        call.on('call.session_participant_joined', handleLayoutUpdate);
-        call.on('call.session_participant_left', handleLayoutUpdate);
+        // Listen to participant joining/leaving and track publishing events
+        call.on('call.session_participant_joined', handleCallStateChange);
+        call.on('call.session_participant_left', handleCallStateChange);
         
         // Return cleanup function
         return () => {
-            // Remove all listeners
-            call.off('call.session_participant_joined', handleLayoutUpdate);
-            call.off('call.session_participant_left', handleLayoutUpdate);
+            call.off('call.session_participant_joined', handleCallStateChange);
+            call.off('call.session_participant_left', handleCallStateChange);
         };
-    }, [call]); // Only depend on the call object
+    }, [call]);
     
     // If call has ended, show the MeetingEnd component
     if (callEnded) {
         return <MeetingEnd />;
     }
 
-    // Render the appropriate layout component
+    // Note: We pass the forceUpdateKey to force React to create a new instance of the layout
+    // when any call state change is detected
     const CallLayout = () => {
         switch (layout) {
             case 'grid':
@@ -85,8 +84,7 @@ const MeetingRoom = () => {
             case 'speaker-left':
                 return <SpeakerLayout participantsBarPosition={'left'}/>;
             default:
-                // Use the ref as key for CustomLayout to force re-render
-                return <CustomLayout key={`custom-layout-${customLayoutKey.current}`} />;
+                return <CustomLayout key={`custom-layout-${forceUpdateKey.current}`} />;
         }
     };
 
