@@ -3,6 +3,7 @@ import { CallControls, CallParticipantsList, PaginatedGridLayout, SpeakerLayout,
 import React, { useState, useEffect, useRef } from 'react'
 import CustomLayout from './CustomLayout';
 import { useRouter } from 'next/navigation';
+import { useToast } from '@/hooks/use-toast';
 
 import {
     DropdownMenu,
@@ -10,7 +11,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
   } from "@/components/ui/dropdown-menu"
-import { LayoutList, Users } from 'lucide-react';
+import { Copy, LayoutList, Users } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import MeetingEnd from './MeetingEnd';
 
@@ -18,6 +19,7 @@ type callLayoutType = 'grid' | 'speaker-left' | 'speaker-right' | 'custom'
 const MeetingRoom = () => {
     const router = useRouter();
     const searchParams = useSearchParams();
+    const { toast } = useToast();
     const [layout, setLayout] = useState<callLayoutType>('custom');
     const [showParticipant, setShowParticipant] = useState(false);
     const [callEnded, setCallEnded] = useState(false);
@@ -68,6 +70,26 @@ const MeetingRoom = () => {
         };
     }, [call]);
     
+    // Copy meeting URL to clipboard
+    const copyMeetingUrl = () => {
+        navigator.clipboard.writeText(window.location.href)
+            .then(() => {
+                toast({
+                    title: "URL Copied!",
+                    description: "Meeting link has been copied to clipboard",
+                    variant: "default",
+                });
+            })
+            .catch(err => {
+                console.error('Failed to copy URL: ', err);
+                toast({
+                    title: "Copy failed",
+                    description: "Could not copy the URL",
+                    variant: "destructive",
+                });
+            });
+    };
+
     // If call has ended, show the MeetingEnd component
     if (callEnded) {
         return <MeetingEnd />;
@@ -116,6 +138,14 @@ const MeetingRoom = () => {
                             <Users size={20}/>
                         </div>
                     </button>
+
+                    <button 
+                    onClick={copyMeetingUrl}
+                    className='cursor-pointer p-2 bg-green-200 hover:bg-green-300 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)] flex items-center gap-2'
+                    aria-label="Copy meeting link"
+                >
+                    <Copy size={20} className='text-black'/>
+                </button>
                 </div>
             )}
             <div className='relative flex size-full items-center justify-center'>
