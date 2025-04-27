@@ -2,16 +2,16 @@ import React, { useMemo, useEffect, useState } from 'react';
 import { 
   ParticipantView,
   useCallStateHooks,
-  StreamVideoParticipant,
   useCall
 } from '@stream-io/video-react-sdk';
 import { cn } from '@/lib/utils';
 
 export const CustomLayout = () => {
   // Access call state
-  const { useParticipants, useLocalParticipant } = useCallStateHooks();
+  const { useParticipants, useLocalParticipant, useScreenShareState } = useCallStateHooks();
   const participants = useParticipants();
   const localParticipant = useLocalParticipant();
+  const screenShareState = useScreenShareState();
   const call = useCall();
   
   // Track viewport size for responsive layout
@@ -30,16 +30,14 @@ export const CustomLayout = () => {
   
   // Check if any participant is screen sharing
   const screenSharingParticipants = useMemo(() => {
-    return participants.filter(participant => {
-      const tracks = participant.publishedTracks || {};
-      // Check if screenShareTrack exists in the published tracks
-      return Object.values(tracks).some(track => 
-        String(track).includes('screen') || String(track).includes('Screen')
-      );
-    });
+    // Find participants with screen sharing
+    return participants.filter(p => 
+      // Check if the participant has a screen share stream
+      p.screenShareStream !== undefined
+    );
   }, [participants]);
   
-  const isScreenSharing = screenSharingParticipants.length > 0;
+  const isScreenSharing = screenShareState.status === 'enabled' || screenSharingParticipants.length > 0;
   
   // Prepare all participants for display
   const sortedParticipants = useMemo(() => {
@@ -52,8 +50,8 @@ export const CustomLayout = () => {
     if (isScreenSharing) {
       // Move screen sharing participants to the front
       return sorted.sort((a, b) => {
-        const aIsSharing = screenSharingParticipants.some(p => p.sessionId === a.sessionId);
-        const bIsSharing = screenSharingParticipants.some(p => p.sessionId === b.sessionId);
+        const aIsSharing = a.screenShareStream !== undefined;
+        const bIsSharing = b.screenShareStream !== undefined;
         
         if (aIsSharing && !bIsSharing) return -1;
         if (!aIsSharing && bIsSharing) return 1;
@@ -62,7 +60,7 @@ export const CustomLayout = () => {
     }
     
     return sorted;
-  }, [participants, screenSharingParticipants, isScreenSharing]);
+  }, [participants, isScreenSharing, screenShareState.status]);
 
   // If no participants, show a message
   if (!sortedParticipants.length) {
@@ -71,7 +69,10 @@ export const CustomLayout = () => {
 
   // Determine layout based on screen sharing
   if (isScreenSharing) {
-    const screenSharingParticipant = screenSharingParticipants[0];
+    // Get the participant who is screen sharing
+    const screenSharingParticipant = screenSharingParticipants.length > 0 
+      ? screenSharingParticipants[0] 
+      : sortedParticipants[0];
     
     return (
       <div className="flex h-full w-full flex-col pb-20 p-4">
@@ -86,15 +87,13 @@ export const CustomLayout = () => {
               trackType="screenShareTrack"
               className="h-full w-full"
             />
-            <div className="absolute bottom-2 left-2 bg-black/60 text-white px-2 py-1 text-sm rounded">
-              {screenSharingParticipant.name || 'Screen sharing'} is sharing screen
-            </div>
+            {/* Removed the overlay showing participant name since it's already part of ParticipantView */}
           </div>
         </div>
         
-        {/* Other participants in a horizontal strip */}
+        {/* Other participants in a horizontal strip - centered */}
         <div className={cn(
-          "w-full flex flex-row overflow-x-auto p-1",
+          "w-full flex flex-row overflow-x-auto p-1 justify-center", // Added justify-center to center align participants
           isMobile ? "h-[40%]" : "h-[25%]"
         )}>
           {sortedParticipants.map((participant) => (
@@ -111,10 +110,7 @@ export const CustomLayout = () => {
                   trackType="videoTrack"
                   className="h-full w-full border-2 border-green-200"
                 />
-                <div className="absolute bottom-0 left-0 right-0 bg-black/50 text-white text-xs p-1 text-center truncate">
-                  {participant.name || 'Participant'}
-                  {participant.sessionId === localParticipant?.sessionId ? ' (You)' : ''}
-                </div>
+                {/* Removed the overlay showing participant name since it's already part of ParticipantView */}
               </div>
             </div>
           ))}
@@ -147,10 +143,7 @@ export const CustomLayout = () => {
                   trackType="videoTrack"
                   className="h-full w-full border-4 border-double border-green-200"
                 />
-                <div className="absolute bottom-0 left-0 right-0 bg-black/50 text-white text-xs p-1 text-center">
-                  {participant.name || 'Participant'}
-                  {participant.sessionId === localParticipant?.sessionId ? ' (You)' : ''}
-                </div>
+                {/* Removed the overlay showing participant name since it's already part of ParticipantView */}
               </div>
             </div>
           );
