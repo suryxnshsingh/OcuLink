@@ -14,6 +14,7 @@ import {
 import { Copy, LayoutList, Users } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import MeetingEnd from './MeetingEnd';
+import MeetingChat from './MeetingChat';
 
 type callLayoutType = 'grid' | 'speaker-left' | 'speaker-right' | 'custom'
 const MeetingRoom = () => {
@@ -162,6 +163,10 @@ const MeetingRoom = () => {
                     </div>
                 )}
             </div>
+            
+            {/* Add chat component */}
+            {call && <MeetingChat meetingId={call.id} />}
+            
             <div className='fixed bottom-0 flex w-full items-center justify-center flex-wrap'>
                 <CallControls/>
             </div>

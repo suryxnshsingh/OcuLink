@@ -30,6 +30,8 @@
     "react": "^18",
     "react-datepicker": "^7.4.0",
     "react-dom": "^18",
+    "stream-chat": "^8.60.0",
+    "stream-chat-react": "^12.14.0",
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7"
   },
