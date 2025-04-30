@@ -23,8 +23,8 @@ export const useMeetingChat = (meetingId: string) => {
         try {
           await createMeetingChatChannel(meetingId);
           console.log('Channel creation/verification completed');
-        } catch (serverError) {
-          console.log('Server setup completed with notes:', serverError.message);
+        } catch (serverError: unknown) {
+          console.log('Server setup completed with notes:', serverError instanceof Error ? serverError.message : 'Unknown error');
           // Continue anyway, as the channel might still be usable
         }
         
