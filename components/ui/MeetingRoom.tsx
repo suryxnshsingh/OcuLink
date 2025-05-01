@@ -11,7 +11,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
   } from "@/components/ui/dropdown-menu"
-import { Copy, LayoutList, Users } from 'lucide-react';
+import { Copy, LayoutList, MessageCircle, Users } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import MeetingEnd from './MeetingEnd';
 import MeetingChat from './MeetingChat';
@@ -23,6 +23,7 @@ const MeetingRoom = () => {
     const { toast } = useToast();
     const [layout, setLayout] = useState<callLayoutType>('custom');
     const [showParticipant, setShowParticipant] = useState(false);
+    const [showChat, setShowChat] = useState(false);
     const [callEnded, setCallEnded] = useState(false);
     const isPersonalRoom = !!searchParams.get('personal');
     const callJoinedRef = useRef(false);
@@ -111,42 +112,61 @@ const MeetingRoom = () => {
         }
     };
 
+    // Toggle chat visibility
+    const toggleChat = () => {
+        setShowChat(!showChat);
+    };
+
     return (
         <section className='relative h-screen w-full overflow-hidden bg-green-50 bg-grid-small-black/[0.2]'>
             {!showParticipant && (
                 <div className='right-0 top-0 md:bottom-0 absolute z-50 p-5'>
-                    <DropdownMenu>
-                    <div className='flex items-center'>
-                    <DropdownMenuTrigger className='cursor-pointer p-2 mb-2 bg-green-200 hover:bg-green-300 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)] '>
-                        <LayoutList size={20} className='text-black'/>
-                    </DropdownMenuTrigger>
-                    </div>
-                    <DropdownMenuContent className='mb-6 bg-green-200 border-2 border-black shadow-[3px_3px_0px_rgba(0,0,0,1)]'>
-                        {['grid', 'speaker-left', 'speaker-right', 'auto'].map((item, index) => (
-                            <div key={index} >
-                                <DropdownMenuItem 
-                                className='flex justify-center items-center text-center cursor-pointer bg-green-300'
-                                onClick={() => setLayout(item.toLowerCase() as callLayoutType)}>
-                                    {item}</DropdownMenuItem>
-                                    
+                    <div className='flex flex-col gap-2'>
+                        <DropdownMenu>
+                            <div className='flex items-center'>
+                                <DropdownMenuTrigger className='cursor-pointer p-2 bg-green-200 hover:bg-green-300 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)] '>
+                                    <LayoutList size={20} className='text-black'/>
+                                </DropdownMenuTrigger>
                             </div>
-                        ))}
-                    </DropdownMenuContent>
-                    </DropdownMenu>
-                    
-                    <button onClick={() => setShowParticipant((prev)=> (!prev))}>
-                        <div className='cursor-pointer p-2 bg-green-200 hover:bg-green-300 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)]'>
-                            <Users size={20}/>
-                        </div>
-                    </button>
+                            <DropdownMenuContent className='mb-6 bg-green-200 border-2 border-black shadow-[3px_3px_0px_rgba(0,0,0,1)]'>
+                                {['grid', 'speaker-left', 'speaker-right', 'auto'].map((item, index) => (
+                                    <div key={index} >
+                                        <DropdownMenuItem 
+                                        className='flex justify-center items-center text-center cursor-pointer bg-green-300'
+                                        onClick={() => setLayout(item.toLowerCase() as callLayoutType)}>
+                                            {item}</DropdownMenuItem>
+                                            
+                                    </div>
+                                ))}
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                        
+                        <button onClick={() => setShowParticipant((prev)=> (!prev))}>
+                            <div className='cursor-pointer p-2 bg-green-200 hover:bg-green-300 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)]'>
+                                <Users size={20}/>
+                            </div>
+                        </button>
 
-                    <button 
-                    onClick={copyMeetingUrl}
-                    className='cursor-pointer p-2 bg-green-200 hover:bg-green-300 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)] flex items-center gap-2'
-                    aria-label="Copy meeting link"
-                >
-                    <Copy size={20} className='text-black'/>
-                </button>
+                        {/* Chat button moved to top toolbar */}
+                        {call && (
+                            <button onClick={toggleChat}>
+                                <div className={cn(
+                                    'cursor-pointer p-2 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)]',
+                                    showChat ? 'bg-red-200 hover:bg-red-300' : 'bg-green-200 hover:bg-green-300'
+                                )}>
+                                    <MessageCircle size={20}/>
+                                </div>
+                            </button>
+                        )}
+
+                        <button 
+                            onClick={copyMeetingUrl}
+                            className='cursor-pointer p-2 bg-green-200 hover:bg-green-300 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)] flex items-center gap-2'
+                            aria-label="Copy meeting link"
+                        >
+                            <Copy size={20} className='text-black'/>
+                        </button>
+                    </div>
                 </div>
             )}
             <div className='relative flex size-full items-center justify-center'>
@@ -164,8 +184,8 @@ const MeetingRoom = () => {
                 )}
             </div>
             
-            {/* Add chat component */}
-            {call && <MeetingChat meetingId={call.id} />}
+            {/* Add chat component with controlled visibility */}
+            {call && <MeetingChat meetingId={call.id} isOpen={showChat} onToggle={toggleChat} />}
             
             <div className='fixed bottom-0 flex w-full items-center justify-center flex-wrap'>
                 <CallControls/>
