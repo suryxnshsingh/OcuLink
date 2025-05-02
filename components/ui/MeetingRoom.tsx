@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import CustomLayout from './CustomLayout';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
+import useNotificationSounds from '@/hooks/useNotificationSounds';
 
 import {
     DropdownMenu,
@@ -31,6 +32,9 @@ const MeetingRoom = () => {
     const call = useCall();
     const { useCallCallingState } = useCallStateHooks();
     const callingState = useCallCallingState();
+    
+    // Initialize notification sounds for participant join/leave events
+    useNotificationSounds();
     
     // Track if we need to force a re-render of the custom layout
     const forceUpdateKey = useRef(0);
