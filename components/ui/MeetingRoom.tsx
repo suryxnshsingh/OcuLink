@@ -207,6 +207,49 @@ const MeetingRoom = () => {
         </div>
     );
 
+    // Mobile tab navigation component for pill-style tabs
+    const MobileTabNavigation = () => (
+        <div className="flex justify-center items-center p-3 my-2">
+            {/* Outer pill container */}
+            <div className="flex w-full max-w-[95%] bg-green-100 rounded-full p-1.5 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)]">
+                {/* Individual tab buttons */}
+                <button 
+                    onClick={() => toggleSidebar('participants')}
+                    className={cn(
+                        'flex-1 py-2 text-center text-sm font-medium transition-all duration-200',
+                        activeTab === 'participants' 
+                            ? 'bg-green-300 rounded-full shadow-sm border border-black' 
+                            : 'text-black'
+                    )}
+                >
+                    Participants
+                </button>
+                <button 
+                    onClick={() => toggleSidebar('chat')}
+                    className={cn(
+                        'flex-1 py-2 text-center text-sm font-medium transition-all duration-200 mx-1',
+                        activeTab === 'chat' 
+                            ? 'bg-green-300 rounded-full shadow-sm border border-black' 
+                            : 'text-black'
+                    )}
+                >
+                    Chat
+                </button>
+                <button 
+                    onClick={() => toggleSidebar('info')}
+                    className={cn(
+                        'flex-1 py-2 text-center text-sm font-medium transition-all duration-200',
+                        activeTab === 'info' 
+                            ? 'bg-green-300 rounded-full shadow-sm border border-black' 
+                            : 'text-black'
+                    )}
+                >
+                    Info
+                </button>
+            </div>
+        </div>
+    );
+
     // Tab content component - shared between drawer & sidebar
     const TabContent = () => (
         <div className="flex-1 overflow-hidden">
@@ -322,7 +365,7 @@ const MeetingRoom = () => {
                     <Drawer open={drawerOpen} onOpenChange={setDrawerOpen}>
                         <DrawerContent className="bg-green-200 border-t-2 rounded-t-3xl border-black h-[75vh]">
                             <div className="flex flex-col h-full">
-                                <TabNavigation />
+                                <MobileTabNavigation />
                                 <TabContent />
                             </div>
                         </DrawerContent>
