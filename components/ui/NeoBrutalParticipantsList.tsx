@@ -978,27 +978,43 @@ const ParticipantMenuItems = ({
 
   return (
     <div className='overflow-scroll h-auto'> 
-      {/* Pin actions */}
-      <MenuItem 
-        onClick={toggleParticipantPin} 
-        icon={<Pin size={14} />} 
-        label={pin ? "Unpin" : "Pin"}
-        disabled={pin && !pin.isLocalPin}
-      />
+      {/* Pin actions - dynamic display based on current state */}
+      {pin ? (
+        // Only show unpin if this is a local pin (not set by someone else)
+        pin.isLocalPin && (
+          <MenuItem 
+            onClick={toggleParticipantPin} 
+            icon={<Pin size={14} />} 
+            label="Unpin" 
+          />
+        )
+      ) : (
+        // Show pin option when not pinned
+        <MenuItem 
+          onClick={toggleParticipantPin} 
+          icon={<Pin size={14} />} 
+          label="Pin" 
+        />
+      )}
       
       <Restricted requiredGrants={[OwnCapability.PIN_FOR_EVERYONE]}>
-        <MenuItem 
-          onClick={pinForEveryone} 
-          icon={<Pin size={14} />} 
-          label="Pin for everyone"
-          disabled={pin && !pin.isLocalPin}
-        />
-        <MenuItem 
-          onClick={unpinForEveryone} 
-          icon={<Pin size={14} />} 
-          label="Unpin for everyone"
-          disabled={!pin || pin.isLocalPin}
-        />
+        {/* Only show "Pin for everyone" if not already pinned for everyone */}
+        {!pin || pin.isLocalPin ? (
+          <MenuItem 
+            onClick={pinForEveryone} 
+            icon={<Pin size={14} />} 
+            label="Pin for everyone"
+          />
+        ) : null}
+        
+        {/* Only show "Unpin for everyone" if currently pinned for everyone */}
+        {pin && !pin.isLocalPin ? (
+          <MenuItem 
+            onClick={unpinForEveryone} 
+            icon={<Pin size={14} />} 
+            label="Unpin for everyone"
+          />
+        ) : null}
       </Restricted>
       
       {/* User blocking */}
