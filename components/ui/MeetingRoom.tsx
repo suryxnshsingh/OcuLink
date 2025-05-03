@@ -1,10 +1,11 @@
 import { cn } from '@/lib/utils';
-import { CallControls, CallParticipantsList, PaginatedGridLayout, SpeakerLayout, useCall, useCallStateHooks } from '@stream-io/video-react-sdk';
+import { CallControls, PaginatedGridLayout, SpeakerLayout, useCall, useCallStateHooks } from '@stream-io/video-react-sdk';
 import React, { useState, useEffect, useRef } from 'react'
 import CustomLayout from './CustomLayout';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 import useNotificationSounds from '@/hooks/useNotificationSounds';
+import { NeoBrutalParticipantsList } from './NeoBrutalParticipantsList';
 
 import {
     DropdownMenu,
@@ -255,7 +256,7 @@ const MeetingRoom = () => {
         <div className="flex-1 overflow-hidden">
             {activeTab === 'participants' && (
                 <div className="h-full">
-                    <CallParticipantsList onClose={() => toggleSidebar('participants')} />
+                    <NeoBrutalParticipantsList onClose={() => toggleSidebar('participants')} />
                 </div>
             )}
             
