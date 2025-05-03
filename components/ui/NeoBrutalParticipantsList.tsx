@@ -166,30 +166,6 @@ export const NeoBrutalParticipantsList = ({
   
   return (
     <div className="flex flex-col h-full overflow-scroll bg-green-200">
-      {/* Header */}
-      <div className="flex justify-between items-center p-4 border-b-2 border-black bg-green-300">
-        <div className="flex flex-col">
-          <div className="flex items-center">
-            <h2 className="font-bold text-lg">Participants</h2>
-            <span className="ml-2 px-2 py-0.5 bg-green-50 border-2 border-black rounded-full text-xs font-bold">
-              {participants.length}
-            </span>
-            {anonymousCount > 0 && (
-              <span className="ml-2 px-2 py-0.5 bg-yellow-300 border-2 border-black rounded-full text-xs font-bold">
-                +{anonymousCount} anonymous
-              </span>
-            )}
-          </div>
-        </div>
-        <button
-          onClick={onClose}
-          className="p-2 bg-red-300 hover:bg-red-400 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)]"
-          aria-label="Close"
-        >
-          <X size={18} />
-        </button>
-      </div>
-
       {/* Search bar */}
       <div className="p-3 border-b-2 border-black">
         <div className="relative">
@@ -214,46 +190,60 @@ export const NeoBrutalParticipantsList = ({
         </div>
       </div>
       
-      {/* Tab navigation */}
+      {/* Tab navigation with participant count */}
       <div className="flex border-b-2 border-black">
-        <button 
+        <div 
           onClick={() => setUserListType('active')}
           className={cn(
-            'flex-1 py-3 font-medium text-center',
+            'flex-1 py-3 font-medium text-center cursor-pointer flex items-center justify-center',
             userListType === 'active' 
               ? 'bg-green-300 border-r-2 border-black' 
               : 'bg-green-100 hover:bg-green-200 border-r-2 border-black'
           )}
         >
-          Active Users
-        </button>
-        <button 
+          <span>Active Users</span>
+          <span className="ml-2 px-2 py-0.5 bg-green-50 border-2 border-black rounded-full text-xs font-bold">
+            {participants.length}
+          </span>
+          {anonymousCount > 0 && (
+            <span className="ml-1 px-2 py-0.5 bg-yellow-300 border-2 border-black rounded-full text-xs font-bold">
+              +{anonymousCount}
+            </span>
+          )}
+        </div>
+        <div 
           onClick={() => setUserListType('blocked')}
           className={cn(
-            'flex-1 py-3 font-medium text-center',
+            'flex-1 py-3 font-medium text-center cursor-pointer flex items-center justify-center',
             userListType === 'blocked' 
               ? 'bg-green-300' 
               : 'bg-green-100 hover:bg-green-200'
           )}
         >
-          Blocked Users
-        </button>
+          <span>Blocked Users</span>
+          {blockedUserIds.length > 0 && (
+            <span className="ml-2 px-2 py-0.5 bg-red-200 border-2 border-black rounded-full text-xs font-bold">
+              {blockedUserIds.length}
+            </span>
+          )}
+        </div>
       </div>
       
-      {/* Mute all users button (for owners/admins) */}
+      {/* Mute all users button and Close button (for owners/admins) */}
       {userListType === 'active' && (
-        <Restricted requiredGrants={[OwnCapability.MUTE_USERS]} hasPermissionsOnly>
-          <div className="p-3 border-b-2 border-black">
+        <div className="p-3 border-b-2 border-black flex">
+          <Restricted requiredGrants={[OwnCapability.MUTE_USERS]} hasPermissionsOnly>
             <button
               onClick={handleMuteAll}
-              className="w-full py-2 bg-yellow-300 hover:bg-yellow-400 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)] font-medium flex items-center justify-center"
+              className="flex-1 py-2 bg-yellow-300 hover:bg-yellow-400 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)] font-medium flex items-center justify-center mr-2"
             >
               <MicOff size={16} className="mr-2" />
-              Mute All Participants
+              Mute All
             </button>
-          </div>
-        </Restricted>
+          </Restricted>
+        </div>
       )}
+      
       
       {/* Participants list */}
       <div className="flex-1 overflow-y-auto">
