@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { useCall, useCallStateHooks, StreamVideoEvent } from '@stream-io/video-react-sdk';
+import { useCall, StreamVideoEvent } from '@stream-io/video-react-sdk';
 import { Button } from './button';
 import { cn } from '@/lib/utils';
-import { Copy, Link, Calendar, Users, Video } from 'lucide-react';
+import { Copy, Link, Calendar, Video } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 interface MeetingInfoProps {
@@ -15,42 +15,11 @@ interface MeetingInfoProps {
 const MeetingInfo = ({ meetingId, isSidebar = false }: MeetingInfoProps) => {
   const { toast } = useToast();
   const call = useCall();
-  const { useLocalParticipant, useRemoteParticipants, useCallCallingState } = useCallStateHooks();
-  const localParticipant = useLocalParticipant();
-  const remoteParticipants = useRemoteParticipants();
-  const callingState = useCallCallingState();
-  const [participantCount, setParticipantCount] = useState(0);
   const [sessionStartTime, setSessionStartTime] = useState<Date | null>(null);
   
-  // Set initial participant count
-  useEffect(() => {
-    // Count all participants (local + remote)
-    const allParticipantsCount = (localParticipant ? 1 : 0) + remoteParticipants.length;
-    setParticipantCount(allParticipantsCount);
-  }, [localParticipant, remoteParticipants]);
-
   // Subscribe to call events for real-time updates
   useEffect(() => {
     if (!call) return;
-    
-    // Function to handle participant joined event
-    const handleParticipantJoined = (event: StreamVideoEvent) => {
-      if (event.type === 'call.session_participant_joined') {
-        setParticipantCount(prevCount => prevCount + 1);
-        
-        // If this is the first participant, record session start time
-        if (!sessionStartTime) {
-          setSessionStartTime(new Date());
-        }
-      }
-    };
-    
-    // Function to handle participant left event
-    const handleParticipantLeft = (event: StreamVideoEvent) => {
-      if (event.type === 'call.session_participant_left') {
-        setParticipantCount(prevCount => Math.max(0, prevCount - 1));
-      }
-    };
     
     // Function to handle session started event
     const handleSessionStarted = (event: StreamVideoEvent) => {
@@ -60,8 +29,6 @@ const MeetingInfo = ({ meetingId, isSidebar = false }: MeetingInfoProps) => {
     };
     
     // Subscribe to events
-    const unsubscribeJoined = call.on('call.session_participant_joined', handleParticipantJoined);
-    const unsubscribeLeft = call.on('call.session_participant_left', handleParticipantLeft);
     const unsubscribeStarted = call.on('call.session_started', handleSessionStarted);
     
     // Set initial session start time if available
@@ -71,11 +38,9 @@ const MeetingInfo = ({ meetingId, isSidebar = false }: MeetingInfoProps) => {
     
     // Cleanup subscriptions
     return () => {
-      unsubscribeJoined();
-      unsubscribeLeft();
       unsubscribeStarted();
     };
-  }, [call, sessionStartTime]);
+  }, [call]);
 
   // Copy meeting URL to clipboard
   const copyMeetingUrl = useCallback(() => {
@@ -191,7 +156,7 @@ const MeetingInfo = ({ meetingId, isSidebar = false }: MeetingInfoProps) => {
         
         {/* Meeting Details */}
         <div className="bg-green-100 border-2 border-black rounded-md p-3 space-y-3">
-          <h3 className="text-lg font-semibold">Meeting Details</h3>
+          {/* <h3 className="text-lg font-semibold">Meeting Details</h3> */}
           
           {/* Start Time */}
           {(sessionStartTime || call?.state.startedAt) && (
@@ -209,34 +174,6 @@ const MeetingInfo = ({ meetingId, isSidebar = false }: MeetingInfoProps) => {
               </div>
             </div>
           )}
-          
-          {/* Participants Count */}
-          <div className="flex items-start gap-2">
-            <Users size={18} className="mt-1 flex-shrink-0" />
-            <div>
-              <p className="font-medium">Participants</p>
-              <p className="text-sm">{participantCount} connected</p>
-            </div>
-          </div>
-        </div>
-        
-        {/* Call Status */}
-        <div className="space-y-2">
-          <h3 className="text-lg font-semibold">Call Status</h3>
-          <div className={cn(
-            "px-3 py-2 rounded-md border-2 border-black font-medium",
-            callingState === 'joined' 
-              ? "bg-green-400" 
-              : callingState === 'reconnecting' 
-                ? "bg-yellow-400" 
-                : "bg-red-300"
-          )}>
-            {callingState === 'joined' 
-              ? "Connected" 
-              : callingState === 'reconnecting' 
-                ? "Reconnecting..." 
-                : "Disconnected"}
-          </div>
         </div>
       </div>
     </div>
