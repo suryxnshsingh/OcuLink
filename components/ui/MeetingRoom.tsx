@@ -12,13 +12,14 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
   } from "@/components/ui/dropdown-menu"
-import { Copy, LayoutList, MessageCircle, Users, X } from 'lucide-react';
+import { Copy, Info, LayoutList, MessageCircle, Users, X } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import MeetingEnd from './MeetingEnd';
 import MeetingChat from './MeetingChat';
+import MeetingInfo from './MeetingInfo';
 
 type callLayoutType = 'grid' | 'speaker-left' | 'speaker-right' | 'custom'
-type SidebarTabType = 'chat' | 'participants' | null;
+type SidebarTabType = 'chat' | 'participants' | 'info' | null;
 
 const MeetingRoom = () => {
     const router = useRouter();
@@ -176,6 +177,18 @@ const MeetingRoom = () => {
                         </button>
                     )}
 
+                    {/* Info button */}
+                    {call && (
+                        <button onClick={() => toggleSidebar('info')}>
+                            <div className={cn(
+                                'cursor-pointer p-2 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)]',
+                                activeTab === 'info' ? 'bg-red-200 hover:bg-red-300' : 'bg-green-200 hover:bg-green-300'
+                            )}>
+                                <Info size={20}/>
+                            </div>
+                        </button>
+                    )}
+
                     {/* Copy meeting URL button */}
                     <button 
                         onClick={copyMeetingUrl}
@@ -228,11 +241,22 @@ const MeetingRoom = () => {
                                     className={cn(
                                         'flex-1 py-3 font-medium',
                                         activeTab === 'chat' 
+                                            ? 'bg-green-300 border-r-2 border-black' 
+                                            : 'bg-green-100 hover:bg-green-200'
+                                    )}
+                                >
+                                    Chat
+                                </button>
+                                <button 
+                                    onClick={() => toggleSidebar('info')}
+                                    className={cn(
+                                        'flex-1 py-3 font-medium',
+                                        activeTab === 'info' 
                                             ? 'bg-green-300' 
                                             : 'bg-green-100 hover:bg-green-200 border-r-2 border-black'
                                     )}
                                 >
-                                    Chat
+                                    Info
                                 </button>
                                 <button 
                                     onClick={() => {
@@ -259,6 +283,15 @@ const MeetingRoom = () => {
                                         <MeetingChat 
                                             meetingId={call.id} 
                                             isOpen={true} 
+                                            isSidebar={true}
+                                        />
+                                    </div>
+                                )}
+                                
+                                {activeTab === 'info' && call && (
+                                    <div className="h-full">
+                                        <MeetingInfo 
+                                            meetingId={call.id}
                                             isSidebar={true}
                                         />
                                     </div>
