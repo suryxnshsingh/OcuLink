@@ -12,19 +12,21 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
   } from "@/components/ui/dropdown-menu"
-import { Copy, LayoutList, MessageCircle, Users } from 'lucide-react';
+import { Copy, LayoutList, MessageCircle, Users, X } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import MeetingEnd from './MeetingEnd';
 import MeetingChat from './MeetingChat';
 
 type callLayoutType = 'grid' | 'speaker-left' | 'speaker-right' | 'custom'
+type SidebarTabType = 'chat' | 'participants' | null;
+
 const MeetingRoom = () => {
     const router = useRouter();
     const searchParams = useSearchParams();
     const { toast } = useToast();
     const [layout, setLayout] = useState<callLayoutType>('custom');
-    const [showParticipant, setShowParticipant] = useState(false);
-    const [showChat, setShowChat] = useState(false);
+    const [sidebarVisible, setSidebarVisible] = useState(false);
+    const [activeTab, setActiveTab] = useState<SidebarTabType>(null);
     const [callEnded, setCallEnded] = useState(false);
     const isPersonalRoom = !!searchParams.get('personal');
     const callJoinedRef = useRef(false);
@@ -116,82 +118,159 @@ const MeetingRoom = () => {
         }
     };
 
-    // Toggle chat visibility
-    const toggleChat = () => {
-        setShowChat(!showChat);
+    // Toggle sidebar and set active tab
+    const toggleSidebar = (tab: SidebarTabType) => {
+        if (activeTab === tab) {
+            // If clicking the same tab, close the sidebar
+            setActiveTab(null);
+            setSidebarVisible(false);
+        } else {
+            // Otherwise, open the sidebar with the selected tab
+            setActiveTab(tab);
+            setSidebarVisible(true);
+        }
     };
 
     return (
         <section className='relative h-screen w-full overflow-hidden bg-green-50 bg-grid-small-black/[0.2]'>
-            {!showParticipant && (
-                <div className='right-0 top-0 md:bottom-0 absolute z-50 p-5'>
-                    <div className='flex flex-col gap-2'>
-                        <DropdownMenu>
-                            <div className='flex items-center'>
-                                <DropdownMenuTrigger className='cursor-pointer p-2 bg-green-200 hover:bg-green-300 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)] '>
-                                    <LayoutList size={20} className='text-black'/>
-                                </DropdownMenuTrigger>
-                            </div>
-                            <DropdownMenuContent className='mb-6 bg-green-200 border-2 border-black shadow-[3px_3px_0px_rgba(0,0,0,1)]'>
-                                {['grid', 'speaker-left', 'speaker-right', 'auto'].map((item, index) => (
-                                    <div key={index} >
-                                        <DropdownMenuItem 
-                                        className='flex justify-center items-center text-center cursor-pointer bg-green-300'
-                                        onClick={() => setLayout(item.toLowerCase() as callLayoutType)}>
-                                            {item}</DropdownMenuItem>
-                                            
-                                    </div>
-                                ))}
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-                        
-                        <button onClick={() => setShowParticipant((prev)=> (!prev))}>
-                            <div className='cursor-pointer p-2 bg-green-200 hover:bg-green-300 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)]'>
-                                <Users size={20}/>
-                            </div>
-                        </button>
-
-                        {/* Chat button moved to top toolbar */}
-                        {call && (
-                            <button onClick={toggleChat}>
-                                <div className={cn(
-                                    'cursor-pointer p-2 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)]',
-                                    showChat ? 'bg-red-200 hover:bg-red-300' : 'bg-green-200 hover:bg-green-300'
-                                )}>
-                                    <MessageCircle size={20}/>
+            {/* Controls toolbar */}
+            <div className='right-0 top-0 absolute z-40 p-5'>
+                <div className='flex flex-col gap-2'>
+                    <DropdownMenu>
+                        <div className='flex items-center'>
+                            <DropdownMenuTrigger className='cursor-pointer p-2 bg-green-200 hover:bg-green-300 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)]'>
+                                <LayoutList size={20} className='text-black'/>
+                            </DropdownMenuTrigger>
+                        </div>
+                        <DropdownMenuContent className='mb-6 bg-green-200 border-2 border-black shadow-[3px_3px_0px_rgba(0,0,0,1)]'>
+                            {['grid', 'speaker-left', 'speaker-right', 'custom'].map((item, index) => (
+                                <div key={index}>
+                                    <DropdownMenuItem 
+                                    className='flex justify-center items-center text-center cursor-pointer bg-green-300'
+                                    onClick={() => setLayout(item.toLowerCase() as callLayoutType)}>
+                                        {item}</DropdownMenuItem>
                                 </div>
-                            </button>
-                        )}
+                            ))}
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                    
+                    {/* Participants button */}
+                    <button onClick={() => toggleSidebar('participants')}>
+                        <div className={cn(
+                            'cursor-pointer p-2 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)]',
+                            activeTab === 'participants' ? 'bg-red-200 hover:bg-red-300' : 'bg-green-200 hover:bg-green-300'
+                        )}>
+                            <Users size={20}/>
+                        </div>
+                    </button>
 
-                        <button 
-                            onClick={copyMeetingUrl}
-                            className='cursor-pointer p-2 bg-green-200 hover:bg-green-300 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)] flex items-center gap-2'
-                            aria-label="Copy meeting link"
-                        >
-                            <Copy size={20} className='text-black'/>
+                    {/* Chat button */}
+                    {call && (
+                        <button onClick={() => toggleSidebar('chat')}>
+                            <div className={cn(
+                                'cursor-pointer p-2 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)]',
+                                activeTab === 'chat' ? 'bg-red-200 hover:bg-red-300' : 'bg-green-200 hover:bg-green-300'
+                            )}>
+                                <MessageCircle size={20}/>
+                            </div>
                         </button>
+                    )}
+
+                    {/* Copy meeting URL button */}
+                    <button 
+                        onClick={copyMeetingUrl}
+                        className='cursor-pointer p-2 bg-green-200 hover:bg-green-300 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)] flex items-center gap-2'
+                        aria-label="Copy meeting link"
+                    >
+                        <Copy size={20} className='text-black'/>
+                    </button>
+                </div>
+            </div>
+
+            {/* Main container with flex layout to properly position content and sidebar */}
+            <div className="flex h-full">
+                {/* Main content area - ensure video is centered */}
+                <div className={cn(
+                    'flex-1 transition-all duration-300 ease-in-out',
+                    'h-full overflow-hidden flex items-center justify-center'
+                )}>
+                    <div className="flex h-full w-full max-w-[1200px] mx-auto">
+                        <CallLayout />
                     </div>
                 </div>
-            )}
-            <div className='relative flex size-full items-center justify-center'>
-                <div className='flex size-full items-center max-w-[1000px] '>
-                    <CallLayout/>
-                </div>
-                {/* Participant list - overlay on mobile */}
-                {showParticipant && (
-                    <div className={cn('fixed inset-0 bg-black/20 z-50 md:bg-transparent md:static md:z-auto', 'flex justify-end')}>
-                        <div className={cn('h-full w-full max-w-[350px] bg-green-200 border-l-2 border-t-2 border-b-2 border-black md:h-[calc(100vh-100px)] md:border-2',
-                        'animate-in slide-in-from-right duration-300')}>
-                            <CallParticipantsList onClose={(() => setShowParticipant(false))}/>
+                
+                {/* Sidebar with tabs - Only shown when sidebarVisible is true */}
+                {sidebarVisible && (
+                    <div className={cn(
+                        'h-full bg-green-200 border-l-2 border-black',
+                        'animate-in slide-in-from-right duration-300',
+                        'w-[70%] md:w-[30%]',
+                        'fixed right-0 top-0 bottom-0 md:static', // Overlay on mobile, part of flow on desktop
+                        'z-[60]' // Higher z-index to ensure it's above meeting controls
+                    )}>
+                        {/* Sidebar header with tabs */}
+                        <div className="flex flex-col h-full">
+                            <div className="flex border-b-2 border-black">
+                                {/* Tab buttons */}
+                                <button 
+                                    onClick={() => toggleSidebar('participants')}
+                                    className={cn(
+                                        'flex-1 py-3 font-medium',
+                                        activeTab === 'participants' 
+                                            ? 'bg-green-300 border-r-2 border-black' 
+                                            : 'bg-green-100 hover:bg-green-200'
+                                    )}
+                                >
+                                    Participants
+                                </button>
+                                <button 
+                                    onClick={() => toggleSidebar('chat')}
+                                    className={cn(
+                                        'flex-1 py-3 font-medium',
+                                        activeTab === 'chat' 
+                                            ? 'bg-green-300' 
+                                            : 'bg-green-100 hover:bg-green-200 border-r-2 border-black'
+                                    )}
+                                >
+                                    Chat
+                                </button>
+                                <button 
+                                    onClick={() => {
+                                        setActiveTab(null);
+                                        setSidebarVisible(false);
+                                    }}
+                                    className="p-3 bg-red-200 hover:bg-red-300 border-l-2 border-black"
+                                    aria-label="Close sidebar"
+                                >
+                                    <X size={18} />
+                                </button>
+                            </div>
+
+                            {/* Tab content */}
+                            <div className="flex-1 overflow-hidden">
+                                {activeTab === 'participants' && (
+                                    <div className="h-full">
+                                        <CallParticipantsList onClose={() => toggleSidebar('participants')} />
+                                    </div>
+                                )}
+                                
+                                {activeTab === 'chat' && call && (
+                                    <div className="h-full">
+                                        <MeetingChat 
+                                            meetingId={call.id} 
+                                            isOpen={true} 
+                                            isSidebar={true}
+                                        />
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     </div>
                 )}
             </div>
             
-            {/* Add chat component with controlled visibility */}
-            {call && <MeetingChat meetingId={call.id} isOpen={showChat} onToggle={toggleChat} />}
-            
-            <div className='fixed bottom-0 flex w-full items-center justify-center flex-wrap'>
+            {/* Call controls at the bottom */}
+            <div className='fixed bottom-0 flex w-full items-center justify-center flex-wrap z-50'>
                 <CallControls/>
             </div>
         </section>

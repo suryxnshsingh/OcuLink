@@ -18,9 +18,10 @@ interface MeetingChatProps {
   meetingId: string;
   isOpen?: boolean;
   onToggle?: () => void;
+  isSidebar?: boolean;
 }
 
-const MeetingChat = ({ meetingId, isOpen = false, onToggle }: MeetingChatProps) => {
+const MeetingChat = ({ meetingId, isOpen = false, onToggle, isSidebar = false }: MeetingChatProps) => {
   const { client, user, isLoading: clientLoading } = useStreamChatClient();
   const { channel, isLoading: channelLoading, error } = useMeetingChat(meetingId);
 
@@ -28,6 +29,23 @@ const MeetingChat = ({ meetingId, isOpen = false, onToggle }: MeetingChatProps) 
     return null; // Don't render anything if the chat isn't ready or has errors
   }
 
+  // For sidebar mode, we just need to render the chat component directly
+  if (isSidebar) {
+    return (
+      <div className="h-full flex flex-col">
+        <Chat client={client} theme="messaging light">
+          <StreamChannel channel={channel}>
+            <Window>
+              <MessageList />
+              <MessageInput focus />
+            </Window>
+          </StreamChannel>
+        </Chat>
+      </div>
+    );
+  }
+
+  // For floating window mode (original implementation)
   return (
     <>
       {/* Chat panel */}
