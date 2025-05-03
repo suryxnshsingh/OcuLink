@@ -149,7 +149,7 @@ const MeetingInfo = ({ meetingId, isSidebar = false }: MeetingInfoProps) => {
             <Video size={18} /> Meeting Code
           </h3>
           <div className="flex items-center gap-2">
-            <div className="bg-white border-2 border-black p-2 rounded-md flex-1 font-mono text-sm break-all">
+            <div className="bg-white border-2 border-black p-2 rounded-md flex-1 font-mono text-sm break-all truncate">
               {meetingId}
             </div>
             <Button 

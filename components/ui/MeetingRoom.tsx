@@ -217,7 +217,7 @@ const MeetingRoom = () => {
                     <div className={cn(
                         'h-full bg-green-200 border-l-2 border-black',
                         'animate-in slide-in-from-right duration-300',
-                        'w-[70%] md:w-[30%]',
+                        'w-[70%] md:w-[25%]',
                         'fixed right-0 top-0 bottom-0 md:static', // Overlay on mobile, part of flow on desktop
                         'z-[60]' // Higher z-index to ensure it's above meeting controls
                     )}>
