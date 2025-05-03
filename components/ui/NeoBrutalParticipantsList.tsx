@@ -16,7 +16,7 @@ import {
   hasScreenShareAudio
 } from '@stream-io/video-client';
 import { cn } from '@/lib/utils';
-import { Search, X, ChevronDown, MicOff, VideoOff, Pin, MoreHorizontal, Volume2, Shield } from 'lucide-react';
+import { Search, X, ChevronDown, MicOff, VideoOff, Pin, MoreHorizontal, Volume2, Shield, Camera, CameraIcon, Video } from 'lucide-react';
 import { Button } from './button';
 import { 
   DropdownMenu,
@@ -374,7 +374,7 @@ const ParticipantListItem = ({ participant }: { participant: StreamVideoParticip
             <span className="font-medium truncate" title={displayName}>
               {displayName}
             </span>
-            {isCurrentUser && (
+                        {isCurrentUser && (
               <span className="ml-2 px-1.5 py-0.5 bg-green-300 border border-black text-xs font-bold rounded">
                 You
               </span>
@@ -397,13 +397,13 @@ const ParticipantListItem = ({ participant }: { participant: StreamVideoParticip
         >
           {isAudioOn ? <Volume2 size={16} /> : <MicOff size={16} />}
         </div>
-        
+
         {/* Video status */}
         <div 
           className={`p-1 rounded-full ${isVideoOn ? 'bg-green-300' : 'bg-red-300'} border border-black`}
           title={isVideoOn ? 'Camera on' : 'Camera off'}
         >
-          {isVideoOn ? <video className="w-4 h-4" /> : <VideoOff size={16} />}
+          {isVideoOn ? <Video className="w-4 h-4" /> : <VideoOff size={16} />}
         </div>
         
         {/* Pinned indicator */}
