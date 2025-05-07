@@ -6,18 +6,13 @@ import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 import useNotificationSounds from '@/hooks/useNotificationSounds';
 
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-  } from "@/components/ui/dropdown-menu"
-import { Info, LayoutList, MessageCircle, Users } from 'lucide-react';
+import { Info, MessageCircle, Users } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import MeetingEnd from './MeetingEnd';
 import { Drawer, DrawerContent } from './drawer';
 import { CallLayoutType, SidebarTabType } from '@/types/meeting';
 import MeetingSidebar from './MeetingSidebar';
+import LayoutSelector from './LayoutSelector';
 
 const MeetingRoom = () => {
     const router = useRouter();
@@ -92,26 +87,6 @@ const MeetingRoom = () => {
             call.off('call.session_participant_left', handleCallStateChange);
         };
     }, [call]);
-    
-    // Copy meeting URL to clipboard
-    const copyMeetingUrl = () => {
-        navigator.clipboard.writeText(window.location.href)
-            .then(() => {
-                toast({
-                    title: "URL Copied!",
-                    description: "Meeting link has been copied to clipboard",
-                    variant: "default",
-                });
-            })
-            .catch(err => {
-                console.error('Failed to copy URL: ', err);
-                toast({
-                    title: "Copy failed",
-                    description: "Could not copy the URL",
-                    variant: "destructive",
-                });
-            });
-    };
 
     // If call has ended, show the MeetingEnd component
     if (callEnded) {
@@ -151,25 +126,13 @@ const MeetingRoom = () => {
     return (
         <section className='relative h-screen w-full overflow-hidden bg-green-50 bg-grid-small-black/[0.2]'>
             {/* Controls toolbar */}
-            <div className='right-0 top-0 absolute z-40 p-5'>
-                <div className='flex flex-col gap-2'>
-                    <DropdownMenu>
-                        <div className='flex items-center'>
-                            <DropdownMenuTrigger className='cursor-pointer p-2 bg-green-200 hover:bg-green-300 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)]'>
-                                <LayoutList size={20} className='text-black'/>
-                            </DropdownMenuTrigger>
-                        </div>
-                        <DropdownMenuContent className='mb-6 bg-green-200 border-2 border-black shadow-[3px_3px_0px_rgba(0,0,0,1)]'>
-                            {['grid', 'speaker-left', 'speaker-right', 'custom'].map((item, index) => (
-                                <div key={index}>
-                                    <DropdownMenuItem 
-                                    className='flex justify-center items-center text-center cursor-pointer bg-green-300'
-                                    onClick={() => setLayout(item.toLowerCase() as CallLayoutType)}>
-                                        {item}</DropdownMenuItem>
-                                </div>
-                            ))}
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+            <div className='right-0 bottom-0 absolute z-50 p-4 mr-4 pointer-events-auto'>
+                <div className='flex flex-row gap-4'>
+                    {/* Using the external LayoutSelector component */}
+                    <LayoutSelector 
+                        selectedLayout={layout}
+                        onLayoutChange={setLayout}
+                    />
                     
                     {/* People button */}
                     <button onClick={() => toggleSidebar('participants')}>
@@ -250,7 +213,7 @@ const MeetingRoom = () => {
             </div>
             
             {/* Call controls at the bottom */}
-            <div className='fixed bottom-0 flex w-full items-center justify-center flex-wrap z-50'>
+            <div className='fixed bottom-0 flex w-full items-center justify-center z-50 md:z-40'>
                 <CallControls/>
             </div>
         </section>
