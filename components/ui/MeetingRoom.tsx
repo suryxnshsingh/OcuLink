@@ -159,20 +159,20 @@ const MeetingRoom = () => {
             <button 
                 onClick={() => toggleSidebar('participants')}
                 className={cn(
-                    'flex-1 py-3 font-medium',
+                    'flex-1 py-3 font-medium border-r-2 border-black',
                     activeTab === 'participants' 
-                        ? 'bg-green-300 border-r-2 border-black' 
+                        ? 'bg-green-300' 
                         : 'bg-green-100 hover:bg-green-200'
                 )}
             >
-                Participants
+                People
             </button>
             <button 
                 onClick={() => toggleSidebar('chat')}
                 className={cn(
-                    'flex-1 py-3 font-medium',
+                    'flex-1 py-3 font-medium border-r-2 border-black',
                     activeTab === 'chat' 
-                        ? 'bg-green-300 border-r-2 border-black' 
+                        ? 'bg-green-300' 
                         : 'bg-green-100 hover:bg-green-200'
                 )}
             >
@@ -181,10 +181,10 @@ const MeetingRoom = () => {
             <button 
                 onClick={() => toggleSidebar('info')}
                 className={cn(
-                    'flex-1 py-3 font-medium',
+                    'flex-1 py-3 font-medium border-r-2 border-black',
                     activeTab === 'info' 
                         ? 'bg-green-300' 
-                        : 'bg-green-100 hover:bg-green-200 border-r-2 border-black'
+                        : 'bg-green-100 hover:bg-green-200'
                 )}
             >
                 Info
@@ -199,7 +199,7 @@ const MeetingRoom = () => {
                         setActiveTab(null);
                         setSidebarVisible(false);
                     }}
-                    className="p-3 bg-red-200 hover:bg-red-300 border-l-2 border-black"
+                    className="p-3 bg-red-200 hover:bg-red-300"
                     aria-label="Close sidebar"
                 >
                     <X size={18} />
@@ -223,7 +223,7 @@ const MeetingRoom = () => {
                             : 'text-black'
                     )}
                 >
-                    Participants
+                    People
                 </button>
                 <button 
                     onClick={() => toggleSidebar('chat')}
@@ -304,7 +304,7 @@ const MeetingRoom = () => {
                         </DropdownMenuContent>
                     </DropdownMenu>
                     
-                    {/* Participants button */}
+                    {/* People button */}
                     <button onClick={() => toggleSidebar('participants')}>
                         <div className={cn(
                             'cursor-pointer p-2 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)]',
