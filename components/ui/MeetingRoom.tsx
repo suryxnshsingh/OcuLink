@@ -13,6 +13,7 @@ import { Drawer, DrawerContent } from './drawer';
 import { CallLayoutType, SidebarTabType } from '@/types/meeting';
 import MeetingSidebar from './MeetingSidebar';
 import LayoutSelector from './LayoutSelector';
+import { NeoBrutalVideoPlaceholder } from './NeoBrutalVideoPlaceholder';
 
 const MeetingRoom = () => {
     const router = useRouter();
@@ -98,11 +99,11 @@ const MeetingRoom = () => {
     const CallLayout = () => {
         switch (layout) {
             case 'grid':
-                return <PaginatedGridLayout/>;
+                return <PaginatedGridLayout VideoPlaceholder={NeoBrutalVideoPlaceholder}/>;
             case 'speaker-right':
-                return <SpeakerLayout participantsBarPosition={'right'}/>;
+                return <SpeakerLayout participantsBarPosition={'right'} VideoPlaceholder={NeoBrutalVideoPlaceholder}/>;
             case 'speaker-left':
-                return <SpeakerLayout participantsBarPosition={'left'}/>;
+                return <SpeakerLayout participantsBarPosition={'left'} VideoPlaceholder={NeoBrutalVideoPlaceholder}/>;
             default:
                 return <CustomLayout key={`custom-layout-${forceUpdateKey.current}`} />;
         }
