@@ -159,34 +159,37 @@ const MeetingRoom = () => {
             <button 
                 onClick={() => toggleSidebar('participants')}
                 className={cn(
-                    'flex-1 py-3 font-medium border-r-2 border-black',
+                    'flex-1 py-3 font-medium border-r-2 border-black flex items-center justify-center gap-2',
                     activeTab === 'participants' 
                         ? 'bg-green-300' 
                         : 'bg-green-100 hover:bg-green-200'
                 )}
             >
+                <Users size={18} />
                 People
             </button>
             <button 
                 onClick={() => toggleSidebar('chat')}
                 className={cn(
-                    'flex-1 py-3 font-medium border-r-2 border-black',
+                    'flex-1 py-3 font-medium border-r-2 border-black flex items-center justify-center gap-2',
                     activeTab === 'chat' 
                         ? 'bg-green-300' 
                         : 'bg-green-100 hover:bg-green-200'
                 )}
             >
+                <MessageCircle size={18} />
                 Chat
             </button>
             <button 
                 onClick={() => toggleSidebar('info')}
                 className={cn(
-                    'flex-1 py-3 font-medium border-r-2 border-black',
+                    'flex-1 py-3 font-medium border-r-2 border-black flex items-center justify-center gap-2',
                     activeTab === 'info' 
                         ? 'bg-green-300' 
                         : 'bg-green-100 hover:bg-green-200'
                 )}
             >
+                <Info size={18} />
                 Info
             </button>
             {isMobile ? (
