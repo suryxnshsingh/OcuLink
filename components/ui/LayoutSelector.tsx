@@ -15,6 +15,7 @@ const LayoutSelector = ({ selectedLayout, onLayoutChange }: LayoutSelectorProps)
   const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 })
   const gridItemRef = useRef<HTMLDivElement>(null)
   const [isMounted, setIsMounted] = useState(false)
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
 
   useEffect(() => {
     setIsMounted(true)
@@ -31,8 +32,15 @@ const LayoutSelector = ({ selectedLayout, onLayoutChange }: LayoutSelectorProps)
     }
   }, [hoveredItem])
 
+  // Clear hover state when dropdown closes
+  useEffect(() => {
+    if (!isDropdownOpen) {
+      setHoveredItem(null)
+    }
+  }, [isDropdownOpen])
+
   const renderTooltip = () => {
-    if (!isMounted || hoveredItem !== "grid") return null
+    if (!isMounted || hoveredItem !== "grid" || !isDropdownOpen) return null
     
     return createPortal(
       <div 
@@ -48,8 +56,14 @@ const LayoutSelector = ({ selectedLayout, onLayoutChange }: LayoutSelectorProps)
     )
   }
 
+  // Handle layout change and reset hover state
+  const handleLayoutChange = (layout: CallLayoutType) => {
+    setHoveredItem(null)
+    onLayoutChange(layout)
+  }
+
   return (
-    <DropdownMenu>
+    <DropdownMenu onOpenChange={setIsDropdownOpen}>
       <div className="flex items-center">
         <DropdownMenuTrigger className="cursor-pointer p-2 bg-green-200 hover:bg-green-300 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)]">
           <LayoutList size={20} className="text-black" />
@@ -59,7 +73,7 @@ const LayoutSelector = ({ selectedLayout, onLayoutChange }: LayoutSelectorProps)
         <div className="grid grid-cols-2 gap-2">
           <DropdownMenuItem
             className="flex flex-col items-center cursor-pointer hover:bg-green-300 py-3 transition-all duration-200"
-            onClick={() => onLayoutChange("grid" as CallLayoutType)}
+            onClick={() => handleLayoutChange("grid" as CallLayoutType)}
             onMouseEnter={() => setHoveredItem("grid")}
             onMouseLeave={() => setHoveredItem(null)}
           >
@@ -78,7 +92,7 @@ const LayoutSelector = ({ selectedLayout, onLayoutChange }: LayoutSelectorProps)
 
           <DropdownMenuItem
             className="flex flex-col items-center cursor-pointer hover:bg-green-300 py-3 transition-all duration-200"
-            onClick={() => onLayoutChange("speaker-right" as CallLayoutType)}
+            onClick={() => handleLayoutChange("speaker-right" as CallLayoutType)}
             onMouseEnter={() => setHoveredItem("speaker-right")}
             onMouseLeave={() => setHoveredItem(null)}
           >
@@ -97,7 +111,7 @@ const LayoutSelector = ({ selectedLayout, onLayoutChange }: LayoutSelectorProps)
 
           <DropdownMenuItem
             className="flex flex-col items-center cursor-pointer hover:bg-green-300 py-3 transition-all duration-200"
-            onClick={() => onLayoutChange("speaker-left" as CallLayoutType)}
+            onClick={() => handleLayoutChange("speaker-left" as CallLayoutType)}
             onMouseEnter={() => setHoveredItem("speaker-left")}
             onMouseLeave={() => setHoveredItem(null)}
           >
@@ -116,7 +130,7 @@ const LayoutSelector = ({ selectedLayout, onLayoutChange }: LayoutSelectorProps)
 
           <DropdownMenuItem
             className="flex flex-col items-center cursor-pointer hover:bg-green-300 py-3 transition-all duration-200"
-            onClick={() => onLayoutChange("custom" as CallLayoutType)}
+            onClick={() => handleLayoutChange("custom" as CallLayoutType)}
             onMouseEnter={() => setHoveredItem("custom")}
             onMouseLeave={() => setHoveredItem(null)}
           >
