@@ -5,7 +5,6 @@ import CustomLayout from './CustomLayout';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 import useNotificationSounds from '@/hooks/useNotificationSounds';
-import { NeoBrutalParticipantsList } from './NeoBrutalParticipantsList';
 
 import {
     DropdownMenu,
@@ -13,21 +12,18 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
   } from "@/components/ui/dropdown-menu"
-import { Copy, Info, LayoutList, MessageCircle, Users, X } from 'lucide-react';
+import { Info, LayoutList, MessageCircle, Users } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import MeetingEnd from './MeetingEnd';
-import MeetingChat from './MeetingChat';
-import MeetingInfo from './MeetingInfo';
-import { Drawer, DrawerClose, DrawerContent } from './drawer';
-
-type callLayoutType = 'grid' | 'speaker-left' | 'speaker-right' | 'custom'
-type SidebarTabType = 'chat' | 'participants' | 'info' | null;
+import { Drawer, DrawerContent } from './drawer';
+import { CallLayoutType, SidebarTabType } from '@/types/meeting';
+import MeetingSidebar from './MeetingSidebar';
 
 const MeetingRoom = () => {
     const router = useRouter();
     const searchParams = useSearchParams();
     const { toast } = useToast();
-    const [layout, setLayout] = useState<callLayoutType>('custom');
+    const [layout, setLayout] = useState<CallLayoutType>('custom');
     const [sidebarVisible, setSidebarVisible] = useState(false);
     const [activeTab, setActiveTab] = useState<SidebarTabType>(null);
     const [callEnded, setCallEnded] = useState(false);
@@ -152,138 +148,6 @@ const MeetingRoom = () => {
         }
     };
 
-    // Tab navigation component - shared between drawer & sidebar
-    const TabNavigation = () => (
-        <div className="flex border-b-2 border-black">
-            {/* Tab buttons */}
-            <button 
-                onClick={() => toggleSidebar('participants')}
-                className={cn(
-                    'flex-1 py-3 font-medium border-r-2 border-black flex items-center justify-center gap-2',
-                    activeTab === 'participants' 
-                        ? 'bg-green-300' 
-                        : 'bg-green-100 hover:bg-green-200'
-                )}
-            >
-                <Users size={18} />
-                People
-            </button>
-            <button 
-                onClick={() => toggleSidebar('chat')}
-                className={cn(
-                    'flex-1 py-3 font-medium border-r-2 border-black flex items-center justify-center gap-2',
-                    activeTab === 'chat' 
-                        ? 'bg-green-300' 
-                        : 'bg-green-100 hover:bg-green-200'
-                )}
-            >
-                <MessageCircle size={18} />
-                Chat
-            </button>
-            <button 
-                onClick={() => toggleSidebar('info')}
-                className={cn(
-                    'flex-1 py-3 font-medium border-r-2 border-black flex items-center justify-center gap-2',
-                    activeTab === 'info' 
-                        ? 'bg-green-300' 
-                        : 'bg-green-100 hover:bg-green-200'
-                )}
-            >
-                <Info size={18} />
-                Info
-            </button>
-            {isMobile ? (
-                <DrawerClose className="p-3 bg-red-200 hover:bg-red-300 border-l-2 border-black">
-                    <X size={18} />
-                </DrawerClose>
-            ) : (
-                <button 
-                    onClick={() => {
-                        setActiveTab(null);
-                        setSidebarVisible(false);
-                    }}
-                    className="p-3 bg-red-200 hover:bg-red-300"
-                    aria-label="Close sidebar"
-                >
-                    <X size={18} />
-                </button>
-            )}
-        </div>
-    );
-
-    // Mobile tab navigation component for pill-style tabs
-    const MobileTabNavigation = () => (
-        <div className="flex justify-center items-center p-3 my-2">
-            {/* Outer pill container */}
-            <div className="flex w-full max-w-[95%] bg-green-100 rounded-full p-1.5 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)]">
-                {/* Individual tab buttons */}
-                <button 
-                    onClick={() => toggleSidebar('participants')}
-                    className={cn(
-                        'flex-1 py-2 text-center text-sm font-medium transition-all duration-200',
-                        activeTab === 'participants' 
-                            ? 'bg-green-300 rounded-full shadow-sm border border-black' 
-                            : 'text-black'
-                    )}
-                >
-                    People
-                </button>
-                <button 
-                    onClick={() => toggleSidebar('chat')}
-                    className={cn(
-                        'flex-1 py-2 text-center text-sm font-medium transition-all duration-200 mx-1',
-                        activeTab === 'chat' 
-                            ? 'bg-green-300 rounded-full shadow-sm border border-black' 
-                            : 'text-black'
-                    )}
-                >
-                    Chat
-                </button>
-                <button 
-                    onClick={() => toggleSidebar('info')}
-                    className={cn(
-                        'flex-1 py-2 text-center text-sm font-medium transition-all duration-200',
-                        activeTab === 'info' 
-                            ? 'bg-green-300 rounded-full shadow-sm border border-black' 
-                            : 'text-black'
-                    )}
-                >
-                    Info
-                </button>
-            </div>
-        </div>
-    );
-
-    // Tab content component - shared between drawer & sidebar
-    const TabContent = () => (
-        <div className="flex-1 overflow-hidden">
-            {activeTab === 'participants' && (
-                <div className="h-full">
-                    <NeoBrutalParticipantsList onClose={() => toggleSidebar('participants')} />
-                </div>
-            )}
-            
-            {activeTab === 'chat' && call && (
-                <div className="h-full">
-                    <MeetingChat 
-                        meetingId={call.id} 
-                        isOpen={true} 
-                        isSidebar={true}
-                    />
-                </div>
-            )}
-            
-            {activeTab === 'info' && call && (
-                <div className="h-full">
-                    <MeetingInfo 
-                        meetingId={call.id}
-                        isSidebar={true}
-                    />
-                </div>
-            )}
-        </div>
-    );
-
     return (
         <section className='relative h-screen w-full overflow-hidden bg-green-50 bg-grid-small-black/[0.2]'>
             {/* Controls toolbar */}
@@ -300,7 +164,7 @@ const MeetingRoom = () => {
                                 <div key={index}>
                                     <DropdownMenuItem 
                                     className='flex justify-center items-center text-center cursor-pointer bg-green-300'
-                                    onClick={() => setLayout(item.toLowerCase() as callLayoutType)}>
+                                    onClick={() => setLayout(item.toLowerCase() as CallLayoutType)}>
                                         {item}</DropdownMenuItem>
                                 </div>
                             ))}
@@ -340,15 +204,6 @@ const MeetingRoom = () => {
                             </div>
                         </button>
                     )}
-
-                    {/* Copy meeting URL button */}
-                    <button 
-                        onClick={copyMeetingUrl}
-                        className='cursor-pointer p-2 bg-green-200 hover:bg-green-300 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)] flex items-center gap-2'
-                        aria-label="Copy meeting link"
-                    >
-                        <Copy size={20} className='text-black'/>
-                    </button>
                 </div>
             </div>
 
@@ -368,27 +223,29 @@ const MeetingRoom = () => {
                 {isMobile ? (
                     <Drawer open={drawerOpen} onOpenChange={setDrawerOpen}>
                         <DrawerContent className="bg-green-200 border-t-2 rounded-t-3xl border-black h-[75vh]">
-                            <div className="flex flex-col h-full">
-                                <MobileTabNavigation />
-                                <TabContent />
-                            </div>
+                            <MeetingSidebar 
+                                activeTab={activeTab}
+                                toggleSidebar={toggleSidebar}
+                                isMobile={isMobile}
+                                sidebarVisible={true}
+                                setActiveTab={setActiveTab}
+                                setSidebarVisible={setSidebarVisible}
+                                call={call || null}
+                                drawerOpen={drawerOpen}
+                                setDrawerOpen={setDrawerOpen}
+                            />
                         </DrawerContent>
                     </Drawer>
                 ) : (
-                    /* Desktop Sidebar */
-                    sidebarVisible && (
-                        <div className={cn(
-                            'h-full bg-green-200 border-l-2 border-black',
-                            'animate-in slide-in-from-right duration-300',
-                            'w-[30%]',
-                            'z-[60]'
-                        )}>
-                            <div className="flex flex-col h-full">
-                                <TabNavigation />
-                                <TabContent />
-                            </div>
-                        </div>
-                    )
+                    <MeetingSidebar 
+                        activeTab={activeTab}
+                        toggleSidebar={toggleSidebar}
+                        isMobile={isMobile}
+                        sidebarVisible={sidebarVisible}
+                        setActiveTab={setActiveTab}
+                        setSidebarVisible={setSidebarVisible}
+                        call={call || null}
+                    />
                 )}
             </div>
             
