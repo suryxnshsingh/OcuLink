@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParticipantViewContext, type VideoPlaceholderProps, useCallStateHooks } from '@stream-io/video-react-sdk';
 import { cn } from '@/lib/utils';
 
@@ -11,10 +11,12 @@ export const NeoBrutalVideoPlaceholder = ({ style }: VideoPlaceholderProps) => {
   const { participant } = useParticipantViewContext();
   const { useParticipants } = useCallStateHooks();
   const participants = useParticipants();
+  const containerRef = useRef<HTMLDivElement>(null);
   
   // Get container dimensions to adjust element sizes
   const [containerSize, setContainerSize] = useState({
     width: typeof window !== 'undefined' ? window.innerWidth : 1000,
+    height: typeof window !== 'undefined' ? window.innerHeight : 800,
     isMobile: typeof window !== 'undefined' ? window.innerWidth < 768 : false
   });
   
@@ -25,83 +27,121 @@ export const NeoBrutalVideoPlaceholder = ({ style }: VideoPlaceholderProps) => {
     nameSize: "text-sm",
     namePadding: "py-1 px-3",
     borderWidth: "border-3",
-    shadowSize: "shadow-[3px_3px_0px_rgba(0,0,0,0.8)]"
+    shadowSize: "shadow-[3px_3px_0px_rgba(0,0,0,0.8)]",
+    showName: true
   });
   
   useEffect(() => {
     const calculateSizes = () => {
       const isMobile = window.innerWidth < 768;
       const totalParticipants = participants.length;
+      const containerWidth = containerRef.current?.clientWidth || 0;
+      const containerHeight = containerRef.current?.clientHeight || 0;
       
-      // Set size classes based on participant count and device
-      if (isMobile) {
+      // Extremely small container (like in a very crowded grid)
+      const isVerySmall = containerWidth < 120 || containerHeight < 120;
+      const isTiny = containerWidth < 80 || containerHeight < 80;
+      
+      // Set size classes based on participant count, device, and container dimensions
+      if (isTiny) {
+        // Extremely tiny size for very crowded layouts
+        return {
+          imageSize: "w-8 h-8",
+          fontSize: "text-sm",
+          nameSize: "text-[8px]",
+          namePadding: "py-0.25 px-1",
+          borderWidth: "border",
+          shadowSize: "shadow-[1px_1px_0px_rgba(0,0,0,0.8)]",
+          showName: false // Hide name in extremely tiny containers
+        };
+      } else if (isVerySmall) {
+        // Very small size for crowded layouts
+        return {
+          imageSize: "w-12 h-12",
+          fontSize: "text-xl",
+          nameSize: "text-[10px]",
+          namePadding: "py-0.25 px-1",
+          borderWidth: "border",
+          shadowSize: "shadow-[1px_1px_0px_rgba(0,0,0,0.8)]",
+          showName: containerHeight > 100 // Only show name if there's enough height
+        };
+      } else if (isMobile) {
         if (totalParticipants >= 7) {
           return {
-            imageSize: "w-16 h-16", // Increased from w-12 h-12
-            fontSize: "text-2xl", // Increased from text-xl
+            imageSize: "w-16 h-16",
+            fontSize: "text-2xl",
             nameSize: "text-xs",
-            namePadding: "py-0.5 px-1.5", // Slightly wider
-            borderWidth: "border-2", // Increased from border
-            shadowSize: "shadow-[2px_2px_0px_rgba(0,0,0,0.8)]" // Increased
+            namePadding: "py-0.5 px-1.5",
+            borderWidth: "border-2",
+            shadowSize: "shadow-[2px_2px_0px_rgba(0,0,0,0.8)]",
+            showName: true
           };
         } else if (totalParticipants >= 4) {
           return {
-            imageSize: "w-20 h-20", // Increased from w-16 h-16
-            fontSize: "text-3xl", // Increased from text-2xl
-            nameSize: "text-sm", // Increased from text-xs
+            imageSize: "w-20 h-20",
+            fontSize: "text-3xl",
+            nameSize: "text-sm",
             namePadding: "py-0.5 px-2",
             borderWidth: "border-2",
-            shadowSize: "shadow-[2px_2px_0px_rgba(0,0,0,0.8)]"
+            shadowSize: "shadow-[2px_2px_0px_rgba(0,0,0,0.8)]",
+            showName: true
           };
         } else {
           return {
-            imageSize: "w-24 h-24", // Kept same for 1-3 participants
+            imageSize: "w-24 h-24",
             fontSize: "text-4xl",
             nameSize: "text-sm",
             namePadding: "py-1 px-3",
             borderWidth: "border-3",
-            shadowSize: "shadow-[3px_3px_0px_rgba(0,0,0,0.8)]"
+            shadowSize: "shadow-[3px_3px_0px_rgba(0,0,0,0.8)]",
+            showName: true
           };
         }
       } else {
         // Desktop sizes - slightly increased all
         if (totalParticipants >= 7) {
           return {
-            imageSize: "w-20 h-20", // Increased from w-16 h-16
-            fontSize: "text-3xl", // Increased from text-2xl
+            imageSize: "w-20 h-20",
+            fontSize: "text-3xl",
             nameSize: "text-xs",
             namePadding: "py-0.5 px-2",
             borderWidth: "border-2",
-            shadowSize: "shadow-[2px_2px_0px_rgba(0,0,0,0.8)]"
+            shadowSize: "shadow-[2px_2px_0px_rgba(0,0,0,0.8)]",
+            showName: true
           };
         } else if (totalParticipants >= 4) {
           return {
-            imageSize: "w-24 h-24", // Increased from w-20 h-20
+            imageSize: "w-24 h-24",
             fontSize: "text-3xl",
             nameSize: "text-sm",
             namePadding: "py-1 px-2",
             borderWidth: "border-2",
-            shadowSize: "shadow-[3px_3px_0px_rgba(0,0,0,0.8)]"
+            shadowSize: "shadow-[3px_3px_0px_rgba(0,0,0,0.8)]",
+            showName: true
           };
         } else {
           return {
-            imageSize: "w-28 h-28", // Increased from w-24 h-24
-            fontSize: "text-5xl", // Increased from text-4xl
-            nameSize: "text-base", // Increased from text-sm
+            imageSize: "w-28 h-28",
+            fontSize: "text-5xl",
+            nameSize: "text-base",
             namePadding: "py-1 px-3",
             borderWidth: "border-3",
-            shadowSize: "shadow-[4px_4px_0px_rgba(0,0,0,0.8)]" // Stronger shadow
+            shadowSize: "shadow-[4px_4px_0px_rgba(0,0,0,0.8)]",
+            showName: true
           };
         }
       }
     };
     
     const updateDimensions = () => {
-      setContainerSize({
-        width: window.innerWidth,
-        isMobile: window.innerWidth < 768
-      });
-      setSizeClasses(calculateSizes());
+      if (containerRef.current) {
+        setContainerSize({
+          width: window.innerWidth,
+          height: window.innerHeight,
+          isMobile: window.innerWidth < 768
+        });
+        setSizeClasses(calculateSizes());
+      }
     };
     
     // Initialize sizes
@@ -110,14 +150,26 @@ export const NeoBrutalVideoPlaceholder = ({ style }: VideoPlaceholderProps) => {
     // Add event listener to update on resize
     window.addEventListener('resize', updateDimensions);
     
+    // Create a ResizeObserver to monitor container size changes
+    const resizeObserver = new ResizeObserver(() => {
+      updateDimensions();
+    });
+    
+    // Observe container size changes
+    if (containerRef.current) {
+      resizeObserver.observe(containerRef.current);
+    }
+    
     // Cleanup
     return () => {
       window.removeEventListener('resize', updateDimensions);
+      resizeObserver.disconnect();
     };
   }, [participants.length]);
   
   return (
     <div 
+      ref={containerRef}
       className={cn(
         "relative flex flex-col justify-center items-center w-full h-full overflow-hidden"
       )}
@@ -145,7 +197,7 @@ export const NeoBrutalVideoPlaceholder = ({ style }: VideoPlaceholderProps) => {
               sizeClasses.imageSize, 
               sizeClasses.borderWidth, 
               sizeClasses.shadowSize,
-              "overflow-hidden mb-2 md:mb-4"
+              "overflow-hidden mb-1 md:mb-2"
             )}>
               <img 
                 src={participant.image} 
@@ -153,20 +205,23 @@ export const NeoBrutalVideoPlaceholder = ({ style }: VideoPlaceholderProps) => {
                 className="w-full h-full object-cover"
               />
             </div>
-            <div className={cn(
-              sizeClasses.nameSize,
-              sizeClasses.namePadding,
-              sizeClasses.borderWidth, 
-              sizeClasses.shadowSize,
-              "bg-green-200 font-bold text-black border-black transform -rotate-1"
-            )}>
-              {/* Truncate long names when space is limited but allow more characters */}
-              {containerSize.isMobile && participants.length > 6 
-                ? (participant.name || participant.userId).substring(0, 8) + (((participant.name || participant.userId).length > 8) ? '..' : '')
-                : containerSize.isMobile && participants.length > 4 
-                  ? (participant.name || participant.userId).substring(0, 10) + (((participant.name || participant.userId).length > 10) ? '..' : '')
-                  : (participant.name || participant.userId)}
-            </div>
+            
+            {/* Only render the name if showName is true */}
+            {sizeClasses.showName && (
+              <div className={cn(
+                sizeClasses.nameSize,
+                sizeClasses.namePadding,
+                sizeClasses.borderWidth, 
+                sizeClasses.shadowSize,
+                "bg-green-200 font-bold text-black border-black transform -rotate-1"
+              )}>
+                {containerSize.isMobile && participants.length > 6 
+                  ? (participant.name || participant.userId).substring(0, 6) + (((participant.name || participant.userId).length > 6) ? '..' : '')
+                  : containerSize.isMobile && participants.length > 4 
+                    ? (participant.name || participant.userId).substring(0, 8) + (((participant.name || participant.userId).length > 8) ? '..' : '')
+                    : (participant.name || participant.userId).substring(0, 15) + (((participant.name || participant.userId).length > 15) ? '..' : '')}
+              </div>
+            )}
           </div>
         </>
       ) : (
@@ -180,24 +235,27 @@ export const NeoBrutalVideoPlaceholder = ({ style }: VideoPlaceholderProps) => {
               sizeClasses.fontSize,
               sizeClasses.borderWidth, 
               sizeClasses.shadowSize,
-              "flex items-center justify-center bg-[#FC5C7D] font-bold text-black border-black mb-2 md:mb-4"
+              "flex items-center justify-center bg-[#FC5C7D] font-bold text-black border-black mb-1 md:mb-2"
             )}>
               {(participant.name?.[0] || participant.userId?.[0] || '?').toUpperCase()}
             </div>
-            <div className={cn(
-              sizeClasses.nameSize,
-              sizeClasses.namePadding,
-              sizeClasses.borderWidth, 
-              sizeClasses.shadowSize,
-              "bg-green-200 font-bold text-black border-black transform -rotate-1"
-            )}>
-              {/* Truncate long names when space is limited but allow more characters */}
-              {containerSize.isMobile && participants.length > 6 
-                ? (participant.name || participant.userId).substring(0, 8) + (((participant.name || participant.userId).length > 8) ? '..' : '')
-                : containerSize.isMobile && participants.length > 4 
-                  ? (participant.name || participant.userId).substring(0, 10) + (((participant.name || participant.userId).length > 10) ? '..' : '')
-                  : (participant.name || participant.userId)}
-            </div>
+            
+            {/* Only render the name if showName is true */}
+            {sizeClasses.showName && (
+              <div className={cn(
+                sizeClasses.nameSize,
+                sizeClasses.namePadding,
+                sizeClasses.borderWidth, 
+                sizeClasses.shadowSize,
+                "bg-green-200 font-bold text-black border-black transform -rotate-1"
+              )}>
+                {containerSize.isMobile && participants.length > 6 
+                  ? (participant.name || participant.userId).substring(0, 6) + (((participant.name || participant.userId).length > 6) ? '..' : '')
+                  : containerSize.isMobile && participants.length > 4 
+                    ? (participant.name || participant.userId).substring(0, 8) + (((participant.name || participant.userId).length > 8) ? '..' : '')
+                    : (participant.name || participant.userId).substring(0, 15) + (((participant.name || participant.userId).length > 15) ? '..' : '')}
+              </div>
+            )}
           </div>
         </>
       )}
