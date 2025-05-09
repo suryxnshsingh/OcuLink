@@ -19,11 +19,12 @@ export const sidebarLinks = [
         label: "Personal Room",
         nameUrl: '/icons/user.png',
         route: "/personal-room",
-    },{
-        label: "About",
-        nameUrl: '/icons/info.png',
-        route: "/about",
-    },
+    }
+    // ,{
+    //     label: "About",
+    //     nameUrl: '/icons/info.png',
+    //     route: "/about",
+    // },
 ];
 
 export const avatarImages =[
