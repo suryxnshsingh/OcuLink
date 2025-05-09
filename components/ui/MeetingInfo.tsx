@@ -3,9 +3,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useCall, StreamVideoEvent } from '@stream-io/video-react-sdk';
 import { Button } from './button';
-import { cn } from '@/lib/utils';
 import { Copy, Link, Calendar, Video } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import NeoBrutalCallStats from './NeoBrutalCallStats';
 
 interface MeetingInfoProps {
   meetingId: string;
@@ -174,6 +174,24 @@ const MeetingInfo = ({ meetingId, isSidebar = false }: MeetingInfoProps) => {
               </div>
             </div>
           )}
+          
+          {/* Meeting Duration */}
+          {sessionStartTime && (
+            <div className="flex items-start gap-2">
+              <Calendar size={18} className="mt-1 flex-shrink-0" />
+              <div>
+                <p className="font-medium">Duration</p>
+                <p className="text-sm">
+                  {call?.state.startedAt 
+                    ? `${Math.floor((Date.now() - new Date(call.state.startedAt).getTime()) / 1000 / 60)} minutes` 
+                    : 'Not started yet'}
+                </p>
+              </div>
+            </div>
+          )}
+          
+          {/* Neo-brutal Call Stats replacing the old CallStats */}
+          <NeoBrutalCallStats />
         </div>
       </div>
     </div>
