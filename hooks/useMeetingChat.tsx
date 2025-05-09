@@ -2,20 +2,30 @@ import { useEffect, useState } from 'react';
 import { Channel } from 'stream-chat';
 import { useStreamChatClient } from '@/providers/streamChatProvider';
 import { createMeetingChatChannel } from '@/actions/stream.actions';
+import { useCall, useCallStateHooks } from '@stream-io/video-react-sdk';
 
 export const useMeetingChat = (meetingId: string) => {
   const { client, user } = useStreamChatClient();
   const [channel, setChannel] = useState<Channel | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  
+  // Get call and call state to check if user has joined
+  const call = useCall();
+  const { useCallCallingState } = useCallStateHooks();
+  const callingState = useCallCallingState();
 
   useEffect(() => {
-    const initializeChannel = async () => {
-      if (!client || !user || !meetingId) {
-        setIsLoading(false);
-        return;
-      }
+    // Only initialize the chat if user has joined the call
+    if (!client || !user || !meetingId || callingState !== 'joined') {
+      setIsLoading(false);
+      return;
+    }
 
+    console.log('Chat initialization started - user has joined the call');
+    
+    let isMounted = true;
+    const initializeChannel = async () => {
       try {
         setIsLoading(true);
         
@@ -35,19 +45,29 @@ export const useMeetingChat = (meetingId: string) => {
           // Watch the channel using client-side auth - this connects and subscribes to updates
           await channelInstance.watch();
           console.log('Successfully connected to channel client-side');
-          setChannel(channelInstance);
-          setError(null);
+          
+          // Only set state if the component is still mounted
+          if (isMounted) {
+            setChannel(channelInstance);
+            setError(null);
+          }
         } catch (watchError) {
           console.error('Error watching channel:', watchError);
-          setError('Unable to connect to chat');
-          setChannel(null);
+          if (isMounted) {
+            setError('Unable to connect to chat');
+            setChannel(null);
+          }
         }
       } catch (err) {
         console.error('Chat initialization error:', err);
-        setError('Failed to initialize chat');
-        setChannel(null);
+        if (isMounted) {
+          setError('Failed to initialize chat');
+          setChannel(null);
+        }
       } finally {
-        setIsLoading(false);
+        if (isMounted) {
+          setIsLoading(false);
+        }
       }
     };
 
@@ -55,11 +75,13 @@ export const useMeetingChat = (meetingId: string) => {
 
     // Cleanup function
     return () => {
+      isMounted = false;
       if (channel) {
+        console.log('Stopping channel watch');
         channel.stopWatching().catch(console.error);
       }
     };
-  }, [client, user, meetingId]);
+  }, [client, user, meetingId, callingState]); // Add callingState as dependency
 
   return { channel, isLoading, error };
 };

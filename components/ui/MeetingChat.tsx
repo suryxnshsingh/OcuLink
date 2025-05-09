@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import { 
   Chat, 
   Channel as StreamChannel, 
@@ -11,8 +11,9 @@ import {
 import { useMeetingChat } from '@/hooks/useMeetingChat';
 import { useStreamChatClient } from '@/providers/streamChatProvider';
 import { cn } from '@/lib/utils';
-import { X } from 'lucide-react';
+import { LoaderCircle, X } from 'lucide-react';
 import { Button } from './button';
+import { useCall, useCallStateHooks } from '@stream-io/video-react-sdk';
 
 interface MeetingChatProps {
   meetingId: string;
@@ -24,9 +25,35 @@ interface MeetingChatProps {
 const MeetingChat = ({ meetingId, isOpen = false, onToggle, isSidebar = false }: MeetingChatProps) => {
   const { client, user, isLoading: clientLoading } = useStreamChatClient();
   const { channel, isLoading: channelLoading, error } = useMeetingChat(meetingId);
+  
+  // Check if the user has joined the call
+  const call = useCall();
+  const { useCallCallingState } = useCallStateHooks();
+  const callingState = useCallCallingState();
 
-  if (clientLoading || channelLoading || error || !client || !channel) {
-    return null; // Don't render anything if the chat isn't ready or has errors
+  const isCallJoined = callingState === 'joined';
+  const isLoading = clientLoading || channelLoading;
+
+  if (!isCallJoined) {
+    // Don't initialize chat until the call is joined
+    return null;
+  }
+
+  if (isLoading) {
+    return (
+      <div className="flex h-full items-center justify-center">
+        <LoaderCircle className="h-6 w-6 animate-spin" />
+      </div>
+    );
+  }
+
+  if (error || !client || !channel) {
+    // Show a simple error message or nothing at all
+    return (
+      <div className="flex h-full items-center justify-center p-4 text-center">
+        <p className="text-sm">{error || "Chat unavailable"}</p>
+      </div>
+    );
   }
 
   // For sidebar mode, we just need to render the chat component directly
