@@ -252,9 +252,7 @@ const MediaFilters = () => {
   };
 
   return (
-    <div className="w-full max-w-lg mx-auto p-4 bg-white/80 border-2 border-black shadow-[5px_5px_0px_rgba(0,0,0,1)]">
-      <h3 className="text-lg font-bold mb-2 text-center">Media Filters</h3>
-      
+    <div className="w-full max-w-lg mx-auto">      
       <div className="mb-4">
         <h4 className="font-medium mb-1">Video Filters</h4>
         <FilterButtons 

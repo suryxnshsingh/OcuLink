@@ -220,7 +220,7 @@ const MeetingSetup = ({setIsSetupComplete}:{setIsSetupComplete: (value: boolean)
                             >
                                 <X className="h-4 w-4" />
                             </Button>
-                            <h3 className="text-lg font-bold mb-4 text-center">Media Filters & Effects</h3>
+                            <h3 className="text-lg font-bold mb-4 text-center">Media Filters & Effects (Under Development)</h3>
                             <MediaFilters />
                         </div>
                     </div>
