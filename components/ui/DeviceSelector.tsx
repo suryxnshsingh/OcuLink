@@ -121,7 +121,7 @@ const DeviceSelector = () => {
             <Button
               variant="default"
               className={cn(
-                "relative w-full bg-green-200 border-2 border-black text-black rounded-none p-3",
+                "relative w-full bg-green-200 border-2 border-black text-black rounded-none px-3",
                 "font-medium shadow-[3px_3px_0px_rgba(0,0,0,1)] hover:shadow-[1px_1px_0px_rgba(0,0,0,1)]",
                 "hover:translate-x-[2px] hover:translate-y-[2px] hover:bg-green-300",
                 "h-auto justify-start transition-all duration-200",
@@ -182,7 +182,7 @@ const DeviceSelector = () => {
             <Button
               variant="default"
               className={cn(
-                "relative w-full bg-blue-200 border-2 border-black text-black rounded-none p-3",
+                "relative w-full bg-blue-200 border-2 border-black text-black rounded-none px-3",
                 "font-medium shadow-[3px_3px_0px_rgba(0,0,0,1)] hover:shadow-[1px_1px_0px_rgba(0,0,0,1)]",
                 "hover:translate-x-[2px] hover:translate-y-[2px] hover:bg-blue-300",
                 "h-auto justify-start transition-all duration-200",
@@ -244,7 +244,7 @@ const DeviceSelector = () => {
               <Button
                 variant="default"
                 className={cn(
-                  "relative w-full bg-yellow-200 border-2 border-black text-black rounded-none p-3",
+                  "relative w-full bg-yellow-200 border-2 border-black text-black rounded-none px-3",
                   "font-medium shadow-[3px_3px_0px_rgba(0,0,0,1)] hover:shadow-[1px_1px_0px_rgba(0,0,0,1)]",
                   "hover:translate-x-[2px] hover:translate-y-[2px] hover:bg-yellow-300",
                   "h-auto justify-start transition-all duration-200",
