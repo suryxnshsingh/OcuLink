@@ -1,6 +1,6 @@
 import { cn } from '@/lib/utils';
-import { CallControls, PaginatedGridLayout, SpeakerLayout, useCall, useCallStateHooks } from '@stream-io/video-react-sdk';
-import React, { useState, useEffect, useRef } from 'react'
+import { CallControls, PaginatedGridLayout, SpeakerLayout, useCall, useCallStateHooks, LoadingIndicator } from '@stream-io/video-react-sdk';
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import CustomLayout from './CustomLayout';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
