@@ -11,6 +11,9 @@ import Alert from '@/components/ui/alert';
 import MeetingSetup from '@/components/ui/MeetingSetup';
 import MeetingRoom from '@/components/ui/MeetingRoom';
 
+// This tells Next.js to always render this page on the server at request time
+export const dynamic = 'force-dynamic';
+
 const MeetingPage = () => {
   const { id } = useParams();
   const { isLoaded, user } = useUser();

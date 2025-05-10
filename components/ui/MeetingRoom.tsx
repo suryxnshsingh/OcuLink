@@ -1,6 +1,6 @@
 import { cn } from '@/lib/utils';
-import { CallControls, PaginatedGridLayout, SpeakerLayout, useCall, useCallStateHooks } from '@stream-io/video-react-sdk';
-import React, { useState, useEffect, useRef } from 'react'
+import { CallControls, PaginatedGridLayout, SpeakerLayout, useCall, useCallStateHooks, LoadingIndicator } from '@stream-io/video-react-sdk';
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import CustomLayout from './CustomLayout';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
@@ -14,6 +14,7 @@ import { CallLayoutType, SidebarTabType } from '@/types/meeting';
 import MeetingSidebar from './MeetingSidebar';
 import LayoutSelector from './LayoutSelector';
 import { NeoBrutalVideoPlaceholder } from './NeoBrutalVideoPlaceholder';
+import MobileCallControls from './MobileCallControls';
 
 const MeetingRoom = () => {
     const router = useRouter();
@@ -127,7 +128,7 @@ const MeetingRoom = () => {
     return (
         <section className='relative h-screen w-full overflow-hidden bg-green-50 bg-grid-small-black/[0.2]'>
             {/* Controls toolbar */}
-            <div className='right-0 bottom-0 absolute z-50 p-4 mr-4 pointer-events-auto'>
+            <div className='right-0 bottom-0 hidden md:block absolute z-50 p-4 mr-4 pointer-events-auto'>
                 <div className='flex flex-row gap-4'>
                     {/* Using the external LayoutSelector component */}
                     <LayoutSelector 
@@ -215,7 +216,15 @@ const MeetingRoom = () => {
             
             {/* Call controls at the bottom */}
             <div className='fixed bottom-0 flex w-full items-center justify-center z-50 md:z-40'>
-                <CallControls/>
+                {isMobile ? (
+                    <MobileCallControls 
+                        toggleSidebar={toggleSidebar} 
+                        activeTab={activeTab} 
+                        onLeave={() => router.push('/')} 
+                    />
+                ) : (
+                    <CallControls onLeave={() => router.push('/')} />
+                )}
             </div>
         </section>
     );

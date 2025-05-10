@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Channel } from 'stream-chat';
 import { useStreamChatClient } from '@/providers/streamChatProvider';
 import { createMeetingChatChannel } from '@/actions/stream.actions';
@@ -14,6 +14,9 @@ export const useMeetingChat = (meetingId: string) => {
   const call = useCall();
   const { useCallCallingState } = useCallStateHooks();
   const callingState = useCallCallingState();
+  
+  // Use a ref to track the channel to avoid closure issues in cleanup
+  const channelRef = useRef<Channel | null>(null);
 
   useEffect(() => {
     // Only initialize the chat if user has joined the call
@@ -38,6 +41,17 @@ export const useMeetingChat = (meetingId: string) => {
           // Continue anyway, as the channel might still be usable
         }
         
+        // If we already have a channel for this meeting, clean it up first
+        if (channelRef.current) {
+          try {
+            console.log('Cleaning up previous channel watch');
+            await channelRef.current.stopWatching();
+            channelRef.current = null;
+          } catch (cleanupErr) {
+            console.error('Error cleaning up previous channel:', cleanupErr);
+          }
+        }
+        
         // Create a channel client-side
         const channelInstance = client.channel('meeting', meetingId);
         
@@ -49,13 +63,19 @@ export const useMeetingChat = (meetingId: string) => {
           // Only set state if the component is still mounted
           if (isMounted) {
             setChannel(channelInstance);
+            channelRef.current = channelInstance;
             setError(null);
+          } else {
+            // If not mounted anymore, clean up the connection we just made
+            console.log('Component unmounted during channel initialization, cleaning up');
+            await channelInstance.stopWatching();
           }
         } catch (watchError) {
           console.error('Error watching channel:', watchError);
           if (isMounted) {
             setError('Unable to connect to chat');
             setChannel(null);
+            channelRef.current = null;
           }
         }
       } catch (err) {
@@ -63,6 +83,7 @@ export const useMeetingChat = (meetingId: string) => {
         if (isMounted) {
           setError('Failed to initialize chat');
           setChannel(null);
+          channelRef.current = null;
         }
       } finally {
         if (isMounted) {
@@ -75,10 +96,17 @@ export const useMeetingChat = (meetingId: string) => {
 
     // Cleanup function
     return () => {
+      console.log('Chat hook cleanup - unmounting');
       isMounted = false;
-      if (channel) {
-        console.log('Stopping channel watch');
-        channel.stopWatching().catch(console.error);
+      
+      // Explicitly clean up channel connection
+      if (channelRef.current) {
+        console.log('Stopping channel watch and cleaning up resources');
+        // Using the ref to avoid closure issues
+        channelRef.current.stopWatching().catch(err => {
+          console.error('Error during channel cleanup:', err);
+        });
+        channelRef.current = null;
       }
     };
   }, [client, user, meetingId, callingState]); // Add callingState as dependency
