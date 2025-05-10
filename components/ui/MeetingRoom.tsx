@@ -220,10 +220,11 @@ const MeetingRoom = () => {
                     <MobileCallControls 
                         toggleSidebar={toggleSidebar} 
                         activeTab={activeTab} 
-                        onLeave={() => router.push('/')} 
+                        // onLeave={() => router.push('/')} 
                     />
                 ) : (
-                    <CallControls onLeave={() => router.push('/')} />
+                    <CallControls />
+                    // <CallControls onLeave={() => router.push('/')} />
                 )}
             </div>
         </section>
