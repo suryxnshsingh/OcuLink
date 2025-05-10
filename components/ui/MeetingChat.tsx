@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { 
   Chat, 
   Channel as StreamChannel, 
@@ -30,9 +30,22 @@ const MeetingChat = ({ meetingId, isOpen = false, onToggle, isSidebar = false }:
   const call = useCall();
   const { useCallCallingState } = useCallStateHooks();
   const callingState = useCallCallingState();
+  
+  // Use ref to prevent memory leaks from unnecessary re-renders
+  const chatComponentRef = useRef<HTMLDivElement>(null);
 
   const isCallJoined = callingState === 'joined';
   const isLoading = clientLoading || channelLoading;
+
+  // Handle cleanup on unmount
+  useEffect(() => {
+    return () => {
+      // Let the browser GC handle cleanup
+      if (chatComponentRef.current) {
+        chatComponentRef.current.innerHTML = '';
+      }
+    };
+  }, []);
 
   if (!isCallJoined) {
     // Don't initialize chat until the call is joined
@@ -59,7 +72,7 @@ const MeetingChat = ({ meetingId, isOpen = false, onToggle, isSidebar = false }:
   // For sidebar mode, we just need to render the chat component directly
   if (isSidebar) {
     return (
-      <div className="h-full flex flex-col">
+      <div className="h-full flex flex-col" ref={chatComponentRef}>
         <Chat client={client} theme="messaging light">
           <StreamChannel channel={channel}>
             <Window>
@@ -96,7 +109,7 @@ const MeetingChat = ({ meetingId, isOpen = false, onToggle, isSidebar = false }:
             </Button>
           </div>
           
-          <div className="flex-1 overflow-hidden">
+          <div className="flex-1 overflow-hidden" ref={chatComponentRef}>
             <Chat client={client} theme="messaging light">
               <StreamChannel channel={channel}>
                 <Window>
