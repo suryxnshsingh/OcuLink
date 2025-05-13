@@ -16,6 +16,35 @@ import LayoutSelector from './LayoutSelector';
 import { NeoBrutalVideoPlaceholder } from './NeoBrutalVideoPlaceholder';
 import MobileCallControls from './MobileCallControls';
 
+// Current Time component to display the current time
+const CurrentTime = () => {
+    const [time, setTime] = useState<string>('');
+    
+    useEffect(() => {
+        // Update time initially
+        updateTime();
+        
+        // Set up interval to update time every minute
+        const intervalId = setInterval(updateTime, 60000);
+        
+        // Clean up interval on component unmount
+        return () => clearInterval(intervalId);
+    }, []);
+    
+    const updateTime = () => {
+        const now = new Date();
+        setTime(now.toLocaleTimeString('en-IN', { hour: 'numeric', minute: 'numeric' }));
+    };
+    
+    return (
+        <div className="fixed left-8 bottom-6 z-50">
+            <div className="bg-green-100 px-4 py-2 rounded-full border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)] font-medium">
+                {time}
+            </div>
+        </div>
+    );
+};
+
 const MeetingRoom = () => {
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -32,7 +61,7 @@ const MeetingRoom = () => {
     // Check if we're on mobile or desktop
     useEffect(() => {
         const checkIfMobile = () => {
-            setIsMobile(window.innerWidth < 768);
+            setIsMobile(window.innerWidth < 1024);
         };
         
         checkIfMobile();
@@ -127,50 +156,6 @@ const MeetingRoom = () => {
 
     return (
         <section className='relative h-screen w-full overflow-hidden bg-green-50 bg-grid-small-black/[0.2]'>
-            {/* Controls toolbar */}
-            <div className='right-0 bottom-0 hidden md:block absolute z-50 p-4 mr-4 pointer-events-auto'>
-                <div className='flex flex-row gap-4'>
-                    {/* Using the external LayoutSelector component */}
-                    <LayoutSelector 
-                        selectedLayout={layout}
-                        onLayoutChange={setLayout}
-                    />
-                    
-                    {/* People button */}
-                    <button onClick={() => toggleSidebar('participants')}>
-                        <div className={cn(
-                            'cursor-pointer p-2 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)]',
-                            activeTab === 'participants' ? 'bg-red-200 hover:bg-red-300' : 'bg-green-200 hover:bg-green-300'
-                        )}>
-                            <Users size={20}/>
-                        </div>
-                    </button>
-
-                    {/* Chat button */}
-                    {call && (
-                        <button onClick={() => toggleSidebar('chat')}>
-                            <div className={cn(
-                                'cursor-pointer p-2 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)]',
-                                activeTab === 'chat' ? 'bg-red-200 hover:bg-red-300' : 'bg-green-200 hover:bg-green-300'
-                            )}>
-                                <MessageCircle size={20}/>
-                            </div>
-                        </button>
-                    )}
-
-                    {/* Info button */}
-                    {call && (
-                        <button onClick={() => toggleSidebar('info')}>
-                            <div className={cn(
-                                'cursor-pointer p-2 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)]',
-                                activeTab === 'info' ? 'bg-red-200 hover:bg-red-300' : 'bg-green-200 hover:bg-green-300'
-                            )}>
-                                <Info size={20}/>
-                            </div>
-                        </button>
-                    )}
-                </div>
-            </div>
 
             {/* Main container with flex layout to properly position content and sidebar */}
             <div className="flex h-full">
@@ -215,7 +200,7 @@ const MeetingRoom = () => {
             </div>
             
             {/* Call controls at the bottom */}
-            <div className='fixed bottom-0 flex w-full items-center justify-center z-50 md:z-40'>
+            <div className='fixed bottom-0 flex w-full items-center justify-center z-50 '>
                 {isMobile ? (
                     <MobileCallControls 
                         toggleSidebar={toggleSidebar} 
@@ -223,8 +208,61 @@ const MeetingRoom = () => {
                         // onLeave={() => router.push('/')} 
                     />
                 ) : (
+                    <div>
+               
+                    {/* Current time display */}
+                    <CurrentTime />
+
+                    {/* Call controls for desktop */}
                     <CallControls />
-                    // <CallControls onLeave={() => router.push('/')} />
+                    {/* <CallControls onLeave={() => router.push('/')} /> */}
+
+                        {/* Controls toolbar */}
+
+                        <div className='right-0 bottom-0 hidden lg:block absolute p-4 mr-2 pointer-events-auto'>
+                            <div className='flex flex-row gap-4'>
+                                {/* Using the external LayoutSelector component */}
+                                <LayoutSelector 
+                                    selectedLayout={layout}
+                                    onLayoutChange={setLayout}
+                                />
+                                
+                                {/* People button */}
+                                <button onClick={() => toggleSidebar('participants')}>
+                                    <div className={cn(
+                                        'cursor-pointer p-2 rounded-full border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)] hover:shadow-[1px_1px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] transition-all duration-20',
+                                        activeTab === 'participants' ? 'bg-red-200 hover:bg-red-300' : 'bg-green-100 hover:bg-green-200'
+                                    )}>
+                                        <Users size={20}/>
+                                    </div>
+                                </button>
+
+                                {/* Chat button */}
+                                {call && (
+                                    <button onClick={() => toggleSidebar('chat')}>
+                                        <div className={cn(
+                                            'cursor-pointer p-2 rounded-full border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)] hover:shadow-[1px_1px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] transition-all duration-20',
+                                            activeTab === 'chat' ? 'bg-red-200 hover:bg-red-300' : 'bg-green-100 hover:bg-green-200'
+                                        )}>
+                                            <MessageCircle size={20}/>
+                                        </div>
+                                    </button>
+                                )}
+
+                                {/* Info button */}
+                                {call && (
+                                    <button onClick={() => toggleSidebar('info')}>
+                                        <div className={cn(
+                                            'cursor-pointer p-2 rounded-full border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)] hover:shadow-[1px_1px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] transition-all duration-20',
+                                            activeTab === 'info' ? 'bg-red-200 hover:bg-red-300' : 'bg-green-100 hover:bg-green-200'
+                                        )}>
+                                            <Info size={20}/>
+                                        </div>
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+                    </div>
                 )}
             </div>
         </section>
