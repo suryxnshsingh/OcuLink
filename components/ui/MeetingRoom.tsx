@@ -37,7 +37,7 @@ const CurrentTime = () => {
     };
     
     return (
-        <div className="fixed left-8 bottom-6 z-50">
+        <div className="fixed left-8 bottom-6 z-50 cursor-pointer">
             <div className="bg-green-100 px-4 py-2 rounded-full border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)] font-medium">
                 {time}
             </div>
