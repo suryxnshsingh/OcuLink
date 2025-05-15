@@ -65,7 +65,7 @@ const LayoutSelector = ({ selectedLayout, onLayoutChange }: LayoutSelectorProps)
   return (
     <DropdownMenu onOpenChange={setIsDropdownOpen}>
       <div className="flex items-center">
-        <DropdownMenuTrigger className="cursor-pointer p-2 bg-green-200 hover:bg-green-300 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)]">
+        <DropdownMenuTrigger className="cursor-pointer p-2 rounded-full bg-green-100 hover:bg-green-200 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)] hover:shadow-[1px_1px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] transition-all duration-20">
           <LayoutList size={20} className="text-black" />
         </DropdownMenuTrigger>
       </div>
